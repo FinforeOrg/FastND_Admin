@@ -1,0 +1,2 @@
+module NoticeboardRoleUsersHelper
+end

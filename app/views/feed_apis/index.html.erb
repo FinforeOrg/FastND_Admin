@@ -1,0 +1,18 @@
+<h1>Listing feed_apis</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @feed_apis.each do |feed_api| %>
+  <tr>
+    <td><%= link_to 'Show', feed_api %></td>
+    <td><%= link_to 'Edit', edit_feed_api_path(feed_api) %></td>
+    <td><%= link_to 'Destroy', feed_api, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New feed_api', new_feed_api_path %>

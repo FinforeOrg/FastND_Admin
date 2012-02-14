@@ -1,0 +1,21 @@
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html>
+    <head>
+      <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"  />
+    </head>
+    <body>
+      Hi Support & Staff,<br /><br />
+      This message is sent by webservice. There's a missing suggestions with zero result with the following information:<br /><br />
+           <ul style="padding-left:6px;">
+             <li>User Login: <%= @user.login %></li>
+             <li>User Name: <%= @user.full_name %></li>
+             <li>Activity: Create auto populate for <%= @column_type %></li>
+             <% @user.focuses_by_category.each do |category,focuses| %>
+               <li><%= category %> : <%= focuses %></li>
+             <% end %>
+           </ul>
+      Please login to your administrator panel then go to <%= @column_type %> or suggestion management.<br /><br />
+      Thank You,<br />
+      Webservice FinforeNet
+     </body>
+   </html>

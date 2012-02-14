@@ -1,0 +1,38 @@
+      <!--[if !IE]>start forms<![endif]-->
+	  	<div class="forms_wrapper">
+        <%= form_for(@profile_category,:html=>{:class=>"search_form general_form"}) do |f| %>
+		 		<form class="search_form general_form" action="#">
+					<!--[if !IE]>start fieldset<![endif]-->
+					<fieldset>
+					<!--[if !IE]>start forms<![endif]-->
+						<div class="forms">
+						  <h3>Please complete the field below</h3>
+						  <!--[if !IE]>start row<![endif]-->
+						  <div class="row">
+								<label>Title:</label>
+								<div class="inputs">
+									<span class="input_wrapper"><%= f.text_field :title, :required => true, :class=>"text" %></span>
+								</div>
+							</div>
+
+							<!--[if !IE]>start row<![endif]-->
+							<div class="row">
+								<div class="inputs">
+									<span class="button blue_button search_button"><span><span><%= controller.action_name %></span></span><input type="submit" name=""></span>
+									<span class="button">
+                    <span>
+                      <span>
+                        <a href="#" onclick="javascript:$('#form_area').slideUp();">Cancel</a>
+                      </span>
+                    </span>
+                  </span>
+						  	</div>
+							</div>
+							<!--[if !IE]>end row<![endif]-->
+            </div>
+						<!--[if !IE]>end forms<![endif]-->
+					</fieldset>
+					<!--[if !IE]>end fieldset<![endif]-->
+				<% end %>
+			</div>
+			<!--[if !IE]>end forms<![endif]-->

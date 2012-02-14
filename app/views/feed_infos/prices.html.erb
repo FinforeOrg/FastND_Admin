@@ -1,0 +1,78 @@
+<div class="section">
+  <!--[if !IE]>start title wrapper<![endif]-->
+	<div class="title_wrapper">
+		<span class="title_wrapper_top"></span>
+		<div class="title_wrapper_inner">
+			<span class="title_wrapper_middle"></span>
+			<div class="title_wrapper_content">
+				<h2>Advance Filter</h2>
+        <ul class="section_menu right">
+          <li>&nbsp;</li>
+          <li class="minmax"><%= link_to image_tag("layout/minimize.png",:border=>0),"#section_menu_right" %></li>
+        </ul>
+			</div>
+		</div>
+		<span class="title_wrapper_bottom"></span>
+	</div>
+  <!--[if !IE]>end title wrapper<![endif]-->
+
+	<!--[if !IE]>start section content<![endif]-->
+	<div class="section_content">
+		<span class="section_content_top"></span>
+		<div class="section_content_inner">
+  	  <div class="forms_wrapper">
+        <%= form_tag(prices_feed_infos_path, :method=>'get', :class=>"search_form",:id=>"filter_form") do %>
+          <fieldset>
+            <div class="forms">
+             
+              <div class="row">
+                <label>Keywords</label>
+                <div class="inputs">
+                  <span class="input_wrapper">
+                    <%= text_field_tag "keyword",params[:keyword],:class=>"text" %>
+                    <%= hidden_field_tag "filter_by","Chart" %>
+                  </span>
+                </div>
+              </div>
+
+              <div class="row">
+                 <div class="inputs">
+                   <span class="button blue_button search_button"><span><span>Search</span></span><input type="submit" name="Search" value="Search"></span>
+                 </div>
+              </div>
+            </div>
+          </fieldset>
+        <% end %>
+      </div>
+		</div>
+		<span class="section_content_bottom"></span>
+	</div>
+	<!--[if !IE]>end section content<![endif]-->
+</div>
+
+<div class="section">
+  <!--[if !IE]>start title wrapper<![endif]-->
+    <div class="title_wrapper">
+      <span class="title_wrapper_top"></span>
+      <div class="title_wrapper_inner">
+        <span class="title_wrapper_middle"></span>
+        <div class="title_wrapper_content">
+          <h2>Listing Suggestions:</h2>
+          <ul class="section_menu right">
+            <li>&nbsp;</li>
+            <li class="minmax"><%= link_to image_tag("layout/minimize.png",:border=>0),"#section_menu right" %></li>
+          </ul>
+        </div>
+      </div>
+      <span class="title_wrapper_bottom"></span>
+    </div>
+    <!--[if !IE]>end title wrapper<![endif]-->
+
+    <!--[if !IE]>start section content<![endif]-->
+    <div class="section_content">
+       <%= render "list" %>
+    </div>
+    <div id="form_area">
+    </div>
+    <!--[if !IE]>end section content<![endif]-->
+</div>

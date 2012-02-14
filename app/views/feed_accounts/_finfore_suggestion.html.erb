@@ -1,0 +1,85 @@
+<div class="module">
+  <!--[if !IE]>start module top<![endif]-->
+  <div class="module_top">
+    <h5>FinforeNet Suggestions</h5>
+    <a class="edit_module add_module" href="#columnFeed">Add to <%= @feed_account ? "Column" : "Tab" %></a>
+  </div>
+  <!--[if !IE]>end module top<![endif]-->
+  <!--[if !IE]>start module bottom<![endif]-->
+  <div class="module_bottom suggestions">
+    <div class="module_options">
+      <div class="table_wrapper">
+        <div class="table_wrapper_inner">
+          <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody><tr>
+              <th style="padding:0px;"><span>&nbsp;</span></th>
+              <th style="width:24px;"><span>&nbsp;</span></th>
+              <th><span>Description</span></th>
+            </tr>
+          <% unless @feed_infos.nil? %>
+          <% @feed_infos.each do |info| %>
+            <tr class="<%= cycle("first", "second") %> info_<%= info.id %>">
+              <td style="padding:0px" valign="top">
+                <%= check_box_tag "feed_info[ids][]",info.id %>
+              </td>
+              <td valign="top">
+                <img src="<%= feed_info_image(info) %>" width="40" height="40"/>
+              </td>
+              <td valign="top">
+                <strong><%= info.title %></strong>
+                <%= feed_info_detail(info) %>
+              </td>
+            </tr>
+          <% end %>
+          <% end %>
+           </tbody></table>
+        </div>
+      </div>
+      <%= page_entries_info(@feed_infos).html_safe unless @feed_infos.nil? %>
+      <%= paginate(@feed_infos) unless @feed_infos.nil? %>
+      <script>
+        $('.module_options .pagination a').click(function() {
+          var href = $(this).attr('href') + "#finforeSuggestion";
+          showLoading();
+          $.get(href,function(respond){
+            $("#finforeSuggestion").fadeOut("slow",function(){
+              hideLoading();
+              $("#finforeSuggestion").html(respond);
+              $("#finforeSuggestion").fadeIn("normal");
+            });
+          });
+          return false;
+        });
+        
+        $('#finforeSuggestion .edit_module.add_module').click(function(){
+          var _inputs = $('#finforeSuggestion input:checkbox:checked');
+          if(_inputs.length > 0){
+            showLoading();
+            <% if @feed_account %>
+              _postUrl = "/users/<%= @user.id %>/feed_accounts/<%= @feed_account.id %>/user_feeds?partial=true#columnFeed";
+            <% else %>
+              _postUrl = "/users/<%= @user.id %>/user_company_tabs?partial=true#columnFeed";
+            <% end %>
+            $.post(_postUrl,
+                   $('#finforeSuggestion input:checkbox:checked').serialize(),
+                   function(response){
+                     hideLoading();
+
+                     <% if @feed_account %>
+                       $.get("/users/<%= @user.id %>/columns?partial=true",function(response){
+                          $("#form_area .section_content_inner:first").html(response);
+                       });
+                     <% end %>
+                     $("#columnFeed").fadeOut("slow",function(){
+                       $("#columnFeed").html(response);
+                       $("#columnFeed").fadeIn("normal");
+                     });
+                   })
+          }
+        })
+      </script>
+    </div>
+  </div>
+  <!--[if !IE]>end module bottom<![endif]-->
+</div>
+<!--[if !IE]>end module<![endif]-->

@@ -1,0 +1,146 @@
+<!--[if !IE]>start forms<![endif]-->
+<% unless @message.blank? %>
+  <%= render :partial => 'layouts/notification', :locals => {:message => @message} %>
+<% end %>
+<div class="forms_wrapper">
+  <%= form_for(@company_competitor,:html=>{:class=>"search_form general_form",:id=>"company_tab_form"}) do |f| %>
+  <%= f.error_messages %>
+  <!--[if !IE]>start fieldset<![endif]-->
+  <fieldset>
+    <!--[if !IE]>start forms<![endif]-->
+    <div class="forms">
+      <h3>Please complete the field below</h3>
+      <!--[if !IE]>start row<![endif]-->
+
+      <div class="row">
+        <label style="width:130px;">Company Tickers:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper"><%= f.text_field :company_ticker, :required => true, :class=>"text" %></span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label style="width:130px;">Company Keyword:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper textarea_wrapper" style="width:350px;height:50px">
+            <%= f.text_area :company_keyword, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label style="width:130px;">Competitor Tickers:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper textarea_wrapper" style="width:350px;height:50px">
+            <%= f.text_area :competitor_ticker, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label style="width:130px;">Competitor Keyword:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper textarea_wrapper" style="width:350px;height:50px">
+            <%= f.text_area :keyword, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label style="width:130px;">Google Finance Keyword:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper textarea_wrapper" style="width:350px;height:50px">
+            <%= f.text_area :finance_keyword, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label style="width:130px;">Broadcast Keyword:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper textarea_wrapper" style="width:350px;height:50px">
+            <%= f.text_area :broadcast_keyword, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label style="width:130px;">Bing Keyword:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper textarea_wrapper" style="width:350px;height:50px">
+            <%= f.text_area :bing_keyword, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label style="width:130px;">Blog Keyword:</label>
+        <div class="inputs" style="width:500px;">
+          <span class="input_wrapper textarea_wrapper" style="width:350px;height:50px">
+            <%= f.text_area :blog_keyword, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+     <!--[if !IE]>start row<![endif]-->
+     <div class="row">
+       <div class="inputs" style="width:500px;">
+         <span class="button blue_button search_button"><span><span><%= controller.action_name %></span></span><input type="submit" name=""></span>
+         <span class="button">
+           <span>
+             <span>
+               <a href="#" onclick="javascript:$('#form_area').slideUp();">Cancel</a>
+             </span>
+           </span>
+         </span>
+       </div>
+     </div>
+     <!--[if !IE]>end row<![endif]-->
+   </div>
+   <!--[if !IE]>end forms<![endif]-->
+  </fieldset>
+    <!--[if !IE]>end fieldset<![endif]-->
+ <% end %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          // bind form using ajaxForm
+          $('#company_tab_form').ajaxForm({
+              dataType: 'html',
+              beforeSubmit:function(){
+                hideLoading();showLoading();
+              },
+              success: function(response){
+                hideLoading();
+                $("#form_area").html(response);
+                var _parentUrl = window.location.href.substr(0, window.location.href.indexOf('#'));
+                if(window.location.href.indexOf('?') > 0){
+                  _parentUrl = _parentUrl + "&partial=true"
+                }else{
+                  _parentUrl = _parentUrl + "?partial=true"
+                }
+                $.get(_parentUrl,function(response){
+                  $("#form_area").prev().html(response);
+                });
+              }
+          });
+      });
+    </script>
+</div>
+<!--[if !IE]>end forms<![endif]-->
+<div class="sidebar">
+  <div class="tooltip">
+    <div class="tooltip_top">
+      <div class="tooltip_bottom">
+         <span class="pointer"></span>
+         <p class="first">
+           <strong>The following below is a guidence to fill the form:</strong>
+         </p>
+         <ul>
+          <li>Please use comma (,) for multiple keywords.</li>
+          <li>Company Tickers and Competitor Tickers are tickers code for finance chart, agenda events and price info</li>
+          <li>Company Keyword and Competitor Keyword will be used for twitter search filters</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

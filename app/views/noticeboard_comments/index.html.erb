@@ -1,0 +1,75 @@
+  <div class="section">
+		<!--[if !IE]>start title wrapper<![endif]-->
+  		<div class="title_wrapper">
+			  <span class="title_wrapper_top"></span>
+				<div class="title_wrapper_inner">
+				  <span class="title_wrapper_middle"></span>
+					<div class="title_wrapper_content">
+					  <h2><%= @noticeboard.name  %> Comments:</h2>
+            <%= menu_edit_noticeboard(@noticeboard) %>
+					</div>
+				</div>
+				<span class="title_wrapper_bottom"></span>
+			</div>
+			<!--[if !IE]>end title wrapper<![endif]-->
+
+			<!--[if !IE]>start section content<![endif]-->
+			<div class="section_content">
+			  <span class="section_content_top"></span>
+				<div class="section_content_inner">
+          <div class="table_tabs_menu">
+            <ul class="table_tabs">
+							<li><a class="selected" href="#"><span><span>List</span></span></a></li>
+						</ul>
+					</div>
+
+					<!--[if !IE]>start table_wrapper<![endif]-->
+					<div class="table_wrapper">
+						<div class="table_wrapper_inner">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<th style="width:125px;"><span>Title</span></th>
+									<th class="photo"><span>Author</span></th>
+                  <th class="photo"><span>Posting To</span></th>
+                  <th class="photo"><span>Publish?</span></th>
+									<th style="width: 75px;">Actions</th>
+								</tr>
+
+              <% @noticeboard_comments.each do |noticeboard_comment| %>
+								<tr class="<%= cycle("first", "second") %> noticeboard_comment_<%= noticeboard_comment.id %>">
+									<td style="padding-left:6px"><%= noticeboard_comment.title %></td>
+                  <td style="padding-left:6px"><%= noticeboard_comment.author %></td>
+                  <td style="padding-left:6px"><%= noticeboard_comment.post_title %></td>
+                  <td style="padding-left:6px"><%= noticeboard_comment.is_publish %></td>
+									<td>
+										<div class="actions_menu">
+											<ul>
+												<li><%= link_to "Edit",edit_noticeboard_noticeboard_comment_path({:id=>noticeboard_comment.id,:noticeboard_id=>@noticeboard.id}),:class=>"edit" %></li>
+												<li>
+                          <%= link_to "Delete",noticeboard_noticeboard_comment_path({:id=>noticeboard_comment.id,:noticeboard_id=>@noticeboard.id}),:class=>"delete",:title=> protect_string(noticeboard_comment.title) %>
+                        </li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+              <% end %>
+							</tbody></table>
+						</div>
+					</div>
+					<!--[if !IE]>end table_wrapper<![endif]-->
+				</div>
+        <div class="pagination_wrapper">
+					<span class="pagination_top"></span>
+						<div class="pagination_middle">
+              <%= will_paginate @noticeboard_comments %>
+							<div class="pagination">
+							  <span class="page_no"><%= page_entries_info @noticeboard_comments %></span>
+						  </div>
+					</div>
+					<span class="pagination_bottom"></span>
+				</div>
+				<span class="section_content_bottom"></span>
+			</div>
+			<!--[if !IE]>end section content<![endif]-->
+		</div>
+<%= user_form_ajax %>

@@ -1,0 +1,158 @@
+body {
+  background: #121e27 url(/assets/layout/blue/body_bg.gif) 0 297px; }
+
+#wrapper {
+  background: transparent; }
+
+#content {
+  background: url(/assets/layout/blue/content_bg.gif) repeat-x;
+  .inner {
+    background: url(/assets/layout/blue/content_inner_bg.gif) no-repeat; } }
+
+#header_main_menu {
+  background: #4bc4e7 url(/assets/layout/blue/header_main_menu.gif) repeat-x; }
+
+#header_main_menu_bg {
+  background-image: url(/assets/layout/blue/header_main_menu_bg.png); }
+
+#header {
+  padding: 13px 0 0;
+  height: 82px; }
+
+#logo a {
+  &:link, &:visited, &:hover, &:active {
+    background-image: url(/assets/finfore-logo.png); } }
+
+#user_details_menu {
+  color: #fff; }
+
+.new_messages {
+  &:link, &:visited, &:active, &:hover {
+    color: #8be5ff; } }
+
+#user_access {
+  a {
+    &:link, &:visited, &:active, &:hover {
+      color: #8be5ff; } }
+  li {
+    background-image: url(/assets/layout/blue/user_access_li.gif); } }
+
+#server_details {
+  color: #b5deea; }
+
+#main_menu {
+  a {
+    &:link, &:visited, &:active {
+      color: #383838; }
+    &:hover {
+      color: #00465a; } }
+  .selected_lk {
+    &:link, &:visited, &:hover, &:active {
+      color: #fff; } }
+  .l span {
+    background-image: url(/assets/layout/blue/mm_l.png); }
+  .m span {
+    background-image: url(/assets/layout/blue/mm_m.png); }
+  .r span {
+    background-image: url(/assets/layout/blue/mm_r.png); } }
+
+#footer {
+  background-image: url(/assets/layout/blue/body_bottom.png);
+  padding-top: 82px;
+  margin-top: -111px; }
+
+#main_menu ul ul {
+  a {
+    &:link, &:visited, &:active {
+      color: #d8f6fe; }
+    &:hover {
+      color: #89cbde; } }
+  .selected_lk {
+    &:link, &:visited, &:hover, &:active {
+      color: #aeaeae; } }
+  .l span {
+    background-image: url(/assets/layout/blue/sm_l.png); }
+  .m span {
+    background-image: url(/assets/layout/blue/sm_m.png); }
+  .r span {
+    background-image: url(/assets/layout/blue/sm_r.png); } }
+
+.sub_bg {
+  background-image: url(/assets/layout/blue/submenu_bg.png); }
+
+.title_wrapper_top {
+  background-image: url(/assets/layout/blue/section_title_top.png); }
+
+.title_wrapper_middle {
+  background-image: url(/assets/layout/blue/section_title_middle.png); }
+
+.title_wrapper_bottom {
+  background-image: url(/assets/layout/blue/section_title_bottom.png); }
+
+h2 {
+  color: #fff; }
+
+.section_content_top {
+  background-image: url(/assets/layout/blue/section_content_top.png); }
+
+.section_content_bottom {
+  background-image: url(/assets/layout/blue/section_content_bottom.png); }
+
+h3 {
+  color: #6082b9; }
+
+.lists dt {
+  color: #001444; }
+
+.section_menu {
+  .l span {
+    background-image: url(/assets/layout/blue/t_l.png); }
+  .m span {
+    background-image: url(/assets/layout/blue/t_m.png); }
+  .r span {
+    background-image: url(/assets/layout/blue/t_r.png); }
+  a {
+    &:link, &:visited, &:active {
+      color: #538594; }
+    &:hover {
+      color: #1e6980; } }
+  .selected_lk {
+    &:link, &:visited, &:hover, &:active {
+      color: #646464; } } }
+
+.view_all_orders {
+  &:link, &:visited, &:active, &:hover {
+    color: #e6f9ff; } }
+
+.tooltip {
+  background-color: #dce5ee;
+  background-image: url(/assets/layout/blue/tooltip_middle.gif); }
+
+.tooltip_bottom {
+  background-image: url(/assets/layout/blue/tooltip_bottom.gif); }
+
+.tooltip_top {
+  background-image: url(/assets/layout/blue/tooltip_top.gif); }
+
+.pointer {
+  background-image: url(/assets/layout/blue/pointer.gif); }
+
+.tooltip p.first {
+  background-image: url(/assets/layout/blue/arrow_indent.gif); }
+
+.section_nav {
+  .l span {
+    background-image: url(/assets/layout/blue/t_l2.png); }
+  .r span {
+    background-image: url(/assets/layout/blue/t_r2.png); }
+  .m span {
+    background-image: url(/assets/layout/blue/t_m2.png); }
+  a {
+    &:link, &:visited, &:active, &:hover {
+      color: #405860; } } }
+
+.section_back em {
+  background-image: url(/assets/layout/blue/section_back.gif); }
+
+.section_edit em {
+  background-image: url(/assets/layout/blue/section_edit.gif); }

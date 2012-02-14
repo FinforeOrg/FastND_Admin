@@ -1,0 +1,80 @@
+      <!--[if !IE]>start forms<![endif]-->
+      <% if @is_success %>
+        <script>
+          document.location = document.location.href.split('#').shift()
+        </script>
+      <% end %>
+	  	<div class="forms_wrapper">
+        <%= form_for(@profile,:html=>{:class=>"search_form general_form",:id=>"profile_form"}) do |f| %>
+        <%= f.error_messages %>
+		 		<form class="search_form general_form" action="#">
+					<!--[if !IE]>start fieldset<![endif]-->
+          <%= hidden_field_tag 'pc_id',params[:pc_id] %>
+          <%= hidden_field_tag 'page',params[:page] %>
+					<fieldset>
+					<!--[if !IE]>start forms<![endif]-->
+						<div class="forms">
+						  <h3>Please complete the field below</h3>
+						  <!--[if !IE]>start row<![endif]-->
+
+              <div class="row">
+								<label>Category:</label>
+								<div class="inputs">
+									<span class="input_wrapper">
+                    <%= f.collection_select :profile_category_id, @categories, :id, :title,
+                      {:prompt => 'Select category'},{:selected => params[:pc_id],:require=>true} %>
+                  </span>
+								</div>
+							</div>
+
+						  <div class="row">
+								<label>Title:</label>
+								<div class="inputs">
+									<span class="input_wrapper"><%= f.text_field :title, :required => true, :class=>"text" %></span>
+								</div>
+							</div>
+
+              <div class="row">
+								<label>Is Private:</label>
+								<div class="inputs">
+									<span class=""><%= f.check_box :is_private, :class=>"checkbox" %> uncheck it if public</span>
+								</div>
+							</div>
+
+							<!--[if !IE]>start row<![endif]-->
+							<div class="row">
+								<div class="inputs">
+									<span class="button blue_button search_button"><span><span><%= controller.action_name %></span></span><input type="submit" name=""></span>
+									<span class="button">
+                    <span>
+                      <span>
+                        <a href="#" onclick="javascript:$('#form_area').slideUp();">Cancel</a>
+                      </span>
+                    </span>
+                  </span>
+						  	</div>
+							</div>
+							<!--[if !IE]>end row<![endif]-->
+            </div>
+						<!--[if !IE]>end forms<![endif]-->
+					</fieldset>
+					<!--[if !IE]>end fieldset<![endif]-->
+				<% end %>
+          <script type="text/javascript">
+            $(document).ready(function() {
+                // bind form using ajaxForm
+                $('#profile_form').ajaxForm({
+                    dataType: 'html',
+                    beforeSubmit:function(){
+                      hideLoading();showLoading();
+                    },
+                    success: function(response){
+                      hideLoading();
+                      $("#form_area").html(response)
+                    }
+                });
+            });
+          </script>
+			</div>
+			<!--[if !IE]>end forms<![endif]-->
+      

@@ -1,0 +1,38 @@
+<!--[if !IE]>start product gallery<![endif]-->
+<div id="product_gallery">
+  <!--[if !IE]>start modules<![endif]-->
+  <div class="modules">
+    <!--[if !IE]>start module<![endif]-->
+    <div class="module">
+      <!--[if !IE]>start module top<![endif]-->
+      <div class="module_top">
+        <h5><%= @feed_account ? "Column Feeds" : "Company Tabs" %></h5>
+      </div>
+      <!--[if !IE]>end module top<![endif]-->
+      <!--[if !IE]>start module bottom<![endif]-->
+      <div class="module_bottom">
+        <!--[if !IE]>start gallery<![endif]-->
+        <div class="gallery">
+          <!--[if !IE]>start gallery inner<![endif]-->
+          <div class="gallery_inner" style="width:325px">
+          <!--[if !IE]>start product<![endif]-->
+            <div class="table_wrapper">
+              <div class="table_wrapper_inner">
+                <% if @feed_account %>
+                  <%= render :partial=>"users/feed" %>
+                <% else %>
+                  <%= render :partial=>"users/tab" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <!--[if !IE]>end gallery inner<![endif]-->
+        </div>
+        <!--[if !IE]>end gallery<![endif]-->
+      </div>
+      <!--[if !IE]>end module bottom<![endif]-->
+    </div>
+    <!--[if !IE]>end module<![endif]-->
+  </div>
+  <!--[if !IE]>end modules<![endif]-->
+</div>

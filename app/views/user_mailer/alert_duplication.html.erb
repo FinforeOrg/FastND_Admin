@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html>
+    <head>
+      <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    </head>
+    <body>
+      <p>Hi FinforeNet Team:</p>
+      <p>You are just noticed about focuses duplication in public profile groups. Information below are about accounts that have identic focuses structures with account <%= @login %> :</p>
+          <% @reports.each do |email,categories| %>
+<b><%= email %></b><br/>
+<ol start=1>
+<% categories.each do |category| %>
+<li><%= category %></li>
+<% end %>
+</ol>
+<br/>
+<% end %>
+      <p>To fix this issue, please login to your administrator page. If you think this message is invalid, please contact your support.</p>
+      <p>Many thanks,</p>
+      <p>Webservice FinforeNet</p>
+    </body>
+   </html>

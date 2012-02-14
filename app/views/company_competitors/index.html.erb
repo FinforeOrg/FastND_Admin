@@ -1,0 +1,153 @@
+<% if !@is_content_only %>
+<div class="section">
+  <!--[if !IE]>start title wrapper<![endif]-->
+	<div class="title_wrapper">
+		<span class="title_wrapper_top"></span>
+		<div class="title_wrapper_inner">
+			<span class="title_wrapper_middle"></span>
+			<div class="title_wrapper_content">
+				<h2>Advance Filter</h2>
+        <ul class="section_menu right">
+          <li>&nbsp;</li>
+          <li class="minmax"><%= link_to image_tag("layout/minimize.png",:border=>0),"#section_menu_right" %></li>
+        </ul>
+			</div>
+		</div>
+		<span class="title_wrapper_bottom"></span>
+	</div>
+  <!--[if !IE]>end title wrapper<![endif]-->
+
+	<!--[if !IE]>start section content<![endif]-->
+	<div class="section_content">
+		<span class="section_content_top"></span>
+		<div class="section_content_inner">
+  	  <div class="forms_wrapper">
+        <%= form_tag(company_competitors_path, :method=>'get', :class=>"search_form",:id=>"filter_form") do %>
+          <fieldset>
+            
+              <% @profile_categories.each do |category| %>
+
+              <div class="row">
+                <label><%= category.title  %> </label>
+                <div class="inputs">
+                  <span class="input_wrapper">
+                    <% optionals = category.profiles.map{|o| [o.title, o.id]} %>
+                    <%= select_tag :profile_ids,
+                          options_for_select(optionals,params[:profile_ids]),
+                          {:prompt => false,:multiple=>true,:name => 'profile_ids[]',:require=>true} %>
+                  </span>
+                </div>
+              </div>
+
+              <% end %>
+
+              <div class="forms">
+              <div class="row">
+                <label>Keywords</label>
+                <div class="inputs">
+                  <span class="input_wrapper">
+                    <%= text_field_tag "keyword",params[:keyword],:class=>"text" %>
+                  </span>
+                </div>
+              </div>
+
+              <div class="row">
+                 <div class="inputs">
+                   <span class="button blue_button search_button"><span><span>Search</span></span><input type="submit" name="Search" value="Search"></span>
+                 </div>
+              </div>
+
+            </div>
+          </fieldset>
+        <% end %>
+      </div>
+		</div>
+		<span class="section_content_bottom"></span>
+	</div>
+	<!--[if !IE]>end section content<![endif]-->
+</div>
+
+<div class="section">
+		<!--[if !IE]>start title wrapper<![endif]-->
+  		<div class="title_wrapper">
+			  <span class="title_wrapper_top"></span>
+				<div class="title_wrapper_inner">
+				  <span class="title_wrapper_middle"></span>
+					<div class="title_wrapper_content">
+					  <h2>Listing Company Tabs:</h2>
+            <ul class="section_menu right">
+              <li>&nbsp;</li>
+              <li class="minmax"><%= link_to image_tag("layout/minimize.png",:border=>0),"#section_menu right" %></li>
+            </ul>
+					</div>
+				</div>
+				<span class="title_wrapper_bottom"></span>
+			</div>
+			<!--[if !IE]>end title wrapper<![endif]-->
+
+			<!--[if !IE]>start section content<![endif]-->
+			<div class="section_content">
+<% end %>
+			  <span class="section_content_top"></span>
+				<div class="section_content_inner">
+          <div class="table_tabs_menu">
+            <ul class="table_tabs">
+							<li><a class="selected" href="#"><span><span>List</span></span></a></li>
+						</ul>
+					</div>
+
+					<!--[if !IE]>start table_wrapper<![endif]-->
+					<div class="table_wrapper">
+						<div class="table_wrapper_inner">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<th style="width:125px;"><span>Title</span></th>
+                  <th class="photo"><span>Users</span></th>
+                  <th style="width: 305px;"><span>Tags / Focuses</span></th>
+									<th class="photo">Actions</th>
+								</tr>
+
+              <% @tabs.each do |tab| %>
+								<tr class="<%= cycle("first", "second") %> tab_<%= tab.id %>">
+									<td style="padding-left:6px" valign="top"><%= tab.feed_info.title %></td>
+                  <td align="center" valign="top" class="user_<%= tab.id %>"><%= User.includes(:user_company_tabs).where("user_company_tabs.feed_info_id" => tab.feed_info.id).count %></td>
+                  <td align="center" valign="top" class="tags_<%= tab.id %>"><%= tab.feed_info.profiles.map(&:title).join(',') %> </td>
+									<td valign="top">
+										<div class="actions_menu" style="width:110px;">
+											<ul>
+												<li>
+                          <%= link_to "Edit",edit_company_competitor_path(tab),:class=>"edit" %>
+                        </li>
+												<li>
+                          <%= link_to "Delete",company_competitor_path(tab),:class=>"delete",:title=>protect_string(tab.feed_info.title) %>
+                        </li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+              <% end %>
+							</tbody></table>
+						</div>
+					</div>
+					<!--[if !IE]>end table_wrapper<![endif]-->
+				</div>
+        <div class="pagination_wrapper">
+					<span class="pagination_top"></span>
+						<div class="pagination_middle">
+              <%= page_entries_info(@tabs).html_safe %>
+							<div class="pagination">
+							  <span class="page_no"><%= paginate @tabs %></span>
+						  </div>
+					</div>
+					<span class="pagination_bottom"></span>
+				</div>
+				<span class="section_content_bottom"></span>
+<% if !@is_content_only %>
+			</div>
+
+      <div id="form_area">
+      </div>
+			<!--[if !IE]>end section content<![endif]-->
+
+		</div>
+<% end %>

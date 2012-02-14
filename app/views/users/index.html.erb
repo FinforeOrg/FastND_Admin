@@ -1,0 +1,115 @@
+<% if !@is_content_only %>
+<div class="section">
+		<!--[if !IE]>start title wrapper<![endif]-->
+  		<div class="title_wrapper">
+			  <span class="title_wrapper_top"></span>
+				<div class="title_wrapper_inner">
+				  <span class="title_wrapper_middle"></span>
+					<div class="title_wrapper_content">
+					  <h2>Listing <%= @title  %>  Users:</h2>
+            <ul class="section_menu right">
+              <li>
+                <%= form_tag(users_path, :method=>'get', :class=>"search_form") do %>
+                  <fieldset align="right" style="">
+                    <div style="text-align: right; width: 100%;" class="forms">
+                      <label style="color:white;margin:0px;padding:0px;">Name/Email: &nbsp;</label>
+                      <span class="input_wrapper medium_input"><input type="text" class="text" name="keyword"></span>
+                    </div>
+                  </fieldset>
+                <% end %>
+              </li>
+              <li>&nbsp;</li>
+              <li class="minmax"><%= link_to image_tag("/assets/layout/minimize.png",:border=>0),"#section_menu_right" %></li>
+            </ul>
+					</div>
+				</div>
+				<span class="title_wrapper_bottom"></span>
+			</div>
+			<!--[if !IE]>end title wrapper<![endif]-->
+
+			<!--[if !IE]>start section content<![endif]-->
+			<div class="section_content">
+<% end %>
+			  <span class="section_content_top"></span>
+				<div class="section_content_inner">
+          <div class="table_tabs_menu">
+            <ul class="table_tabs">
+							<li><a class="selected" href="#"><span><span>List</span></span></a></li>
+						</ul>
+						<a class="update" href="#" onclick="javascript:open_form('/users/new')"><span><span><em>Add New Record</em><strong></strong></span></span></a>
+					</div>
+
+					<!--[if !IE]>start table_wrapper<![endif]-->
+					<div class="table_wrapper">
+						<div class="table_wrapper_inner">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<th style="width:125px;"><span>Name</span></th>
+									<th class="photo"><span>Login</span></th>
+                  <th class="photo"><span>Columns</span></th>
+                  <th class="photo"><span>Company Tabs</span></th>
+                  <th class="photo"><span>Focuses</span></th>
+                  <th class="photo"><span>Is Public?</span></th>
+									<th style="width: 75px;">Actions</th>
+								</tr>
+
+              <% @users.each do |user| %>
+								<tr class="<%= cycle("first", "second") %> user_<%= user.id %>">
+									<td style="padding-left:6px"><%= user.full_name %></td>
+                  <td style="padding-left:6px"><%= user.login %></td>
+                  <td align="center"><%= user.feed_accounts.count %></td>
+                  <td align="center"><%= user.user_company_tabs.count %></td>
+                  <td align="center" class="focus_<%= user.id %>">loading ...</td>
+                  <td align="center" class="public_<%= user.id %>"><%= is_public(user)  %> </td>
+									<td>
+										<div class="actions_menu">
+											<ul>
+												<li><%= link_to "Edit",edit_user_path(user),:class=>"edit" %></li>
+												<li>
+                          <%= link_to "Delete",user_path(user),:class=>"delete",:title=> protect_string(user.login||user.full_name) %>
+                        </li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+              <% end %>
+							</tbody></table>
+						</div>
+					</div>
+					<!--[if !IE]>end table_wrapper<![endif]-->
+				</div>
+        <div class="pagination_wrapper">
+					<span class="pagination_top"></span>
+						<div class="pagination_middle">
+              <%= page_entries_info(@users).html_safe %>
+							<div class="pagination">
+							  <span class="page_no"><%= paginate @users %></span>
+						  </div>
+					</div>
+					<span class="pagination_bottom"></span>
+				</div>
+				<span class="section_content_bottom"></span>
+<% if !@is_content_only %>
+			</div>
+      <div id="form_area">
+      </div>
+			<!--[if !IE]>end section content<![endif]-->
+		</div>
+<% end %>
+
+<script type="text/javascript">
+
+ var _ids = [<% @users.map(&:id).each do |uid| %> 
+             "<%= uid %>",
+             <% end %>
+             ""  
+ ]
+ 
+ $.each(_ids, function(key, value) {
+  if(value != ""){ 
+  count_service("/users/count_focuses?uid="+value,$(".focus_"+value),"#");
+  }
+ });
+
+</script>
+

@@ -1,0 +1,2 @@
+module ProfileCategoriesHelper
+end

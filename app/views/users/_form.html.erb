@@ -1,0 +1,166 @@
+      <!--[if !IE]>start forms<![endif]-->
+       <% unless @message.blank? %>
+          <%= render :partial => 'layouts/notification', :locals => {:message => @message} %>
+       <% end %>
+	  	<div class="forms_wrapper">
+        <%= form_for(@user,:html=>{:class=>"search_form general_form",:id=>"profile_form"}) do |f| %>
+        <%= f.error_messages %>
+					<!--[if !IE]>start fieldset<![endif]-->
+					<fieldset>
+					<!--[if !IE]>start forms<![endif]-->
+						<div class="forms">
+						  <h3>Please complete the field below</h3>
+						  <!--[if !IE]>start row<![endif]-->
+
+              <div class="row">
+								<label>Full Name:</label>
+								<div class="inputs">
+									<span class="input_wrapper"><%= f.text_field :full_name, :required => true, :class=>"text" %></span>
+								</div>
+							</div>
+
+              <div class="row">
+								<label>Email Work:</label>
+								<div class="inputs">
+									<span class="input_wrapper"><%= f.text_field :email_work, :required => true, :class=>"text" %></span>
+								</div>
+							</div>
+
+              <div class="row">
+								<label>Password:</label>
+								<div class="inputs">
+									<span class="input_wrapper"><%= f.password_field :password, :class=>"text" %></span>
+								</div>
+							</div>
+
+              <div class="row">
+								<label>Confirm Password:</label>
+								<div class="inputs">
+									<span class="input_wrapper"><%= f.password_field :password_confirmation, :class=>"text" %></span>
+								</div>
+							</div>
+
+              <div class="row">
+								<label>Is Public?:</label>
+								<div>
+									<span class="input_wrapper"><%= f.check_box :is_public, :class=>"checkbox" %> check it for public profile.</span>
+								</div>
+							</div>
+
+              <% @categories.each do |category| %>
+              
+              <div class="row">
+								<label><%= category.title  %> </label>
+								<div class="inputs">
+									<span class="input_wrapper">
+                    <%= f.collection_select :profile_ids, category.profiles, :id, :title,
+                          {:prompt => false},
+                          {:selected => @user.profiles,:multiple=>true,:name => 'user[profile_ids][]',:require=>true} %>
+                  </span>
+								</div>
+							</div>
+
+              <% end %>
+
+              <% if controller.action_name.scan(/new|create/i).size > 0 %>
+                <div class="row">
+                  <label>Auto Populate?:</label>
+                  <div>
+                    <span class="input_wrapper"><%= check_box_tag :is_populate,@is_populate, :class=>"checkbox" %> check if auto population data.</span>
+                  </div>
+                </div>
+              <% end %>
+
+							<!--[if !IE]>start row<![endif]-->
+							<div class="row">
+								<div class="inputs">
+									<span class="button blue_button search_button"><span><span><%= controller.action_name %></span></span><input type="submit" name=""></span>
+									<span class="button">
+                    <span>
+                      <span>
+                        <a href="#" onclick="javascript:$('#form_area').slideUp();">Cancel</a>
+                      </span>
+                    </span>
+                  </span>
+						  	</div>
+							</div>
+							<!--[if !IE]>end row<![endif]-->
+            </div>
+						<!--[if !IE]>end forms<![endif]-->
+					</fieldset>
+					<!--[if !IE]>end fieldset<![endif]-->
+				<% end %>
+          <script type="text/javascript">
+            $(document).ready(function() {
+                // bind form using ajaxForm
+                $('#profile_form').ajaxForm({
+                    dataType: 'html',
+                    beforeSubmit:function(){
+                      hideLoading();showLoading();
+                    },
+                    success: function(response){
+                      hideLoading();
+                      $("#form_area").html(response);
+		       var _parentUrl = window.location.href.substr(0, window.location.href.indexOf('#'));
+                       if(window.location.href.indexOf('?') > 0){
+                         _parentUrl = _parentUrl + "&partial=true"
+                       }else{
+                         _parentUrl = _parentUrl + "?partial=true"
+                       }
+                       $.get(_parentUrl,function(response){
+                         $("#form_area").prev().html(response);
+                       });
+                    }
+                });
+            });
+          </script>
+			</div>
+			<!--[if !IE]>end forms<![endif]-->
+      <div class="sidebar">
+        <div class="tooltip">
+					<div class="tooltip_top">
+						<div class="tooltip_bottom">
+							 <span class="pointer"></span>
+							 <p class="first">
+                 <strong>The following below is a guidence to fill the form:</strong>
+				  		 </p>
+               <ul>
+                <li>Full Name could be personal or department name.</li>
+                <li>You can leave blank the password for creation then it will generate a password which will be sent to user's email.</li>
+                <li>Work email is important and can't be blank.</li>
+                <li>Use keys CTRL (Control) + mouse click to have multiple selections for the focuses.</li>
+              </ul>
+						</div>
+					</div>
+				</div>
+        <% if @user.id %>
+        <p> &nbsp; </p>
+        <div class="tooltip">
+					<div class="tooltip_top">
+						<div class="tooltip_bottom">
+							 <span class="pointer"></span>
+							 <p class="first">
+                 <strong>ACCESS HISTORY</strong>
+				  		 </p>
+               <ul>
+                 <li><b>Member Since:</b><br/><%= dateformat_full(@user.created_at) %></li>
+                 <li><b>Last Login:</b> <br/><%= timeformat_full(@user.last_login_at) %></li>
+                 <li><b>Total Access:</b><br/><%= @user.login_count.to_i %> times</li>
+                 <li><b>Last IP Trace:</b><br/><span class="ip_info"></span></li>
+              </ul>
+						</div>
+					</div>
+          
+          <% if @user.last_login_ip || @user.current_login_ip %>
+            <% ip = @user.last_login_ip || @user.current_login_ip %>
+            <script>
+              $.get("/dashboards/ip_info?ip=<%= ip %>",function(response){
+                //response = response.toString().replace(/\n|\r/gim,'<br/>')
+                $(".ip_info").html(response)
+              })
+            </script>
+          <% end %>
+				</div>
+        <% end %>
+      </div>
+      

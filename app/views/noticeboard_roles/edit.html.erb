@@ -1,0 +1,12 @@
+<h1>Editing noticeboard_role</h1>
+
+<% form_for(@noticeboard_role) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @noticeboard_role %> |
+<%= link_to 'Back', noticeboard_roles_path %>

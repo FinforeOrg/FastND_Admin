@@ -1,0 +1,12 @@
+<h1>Editing feed_api</h1>
+
+<% form_for(@feed_api) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @feed_api %> |
+<%= link_to 'Back', feed_apis_path %>

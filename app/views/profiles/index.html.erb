@@ -1,0 +1,97 @@
+<% pc_id = params[:pc_id] %>
+<% page = params[:page] %>
+<div class="section">
+		<!--[if !IE]>start title wrapper<![endif]-->
+  		<div class="title_wrapper">
+			  <span class="title_wrapper_top"></span>
+				<div class="title_wrapper_inner">
+				  <span class="title_wrapper_middle"></span>
+					<div class="title_wrapper_content">
+					  <h2>Listing <%= @category.title  %>  Focuses:</h2>
+            <ul class="section_menu right">
+              <li>&nbsp;</li>
+              <li class="minmax"><%= link_to image_tag("layout/minimize.png",:border=>0),"#section_menu_right" %></li>
+            </ul>
+					</div>
+				</div>
+				<span class="title_wrapper_bottom"></span>
+			</div>
+			<!--[if !IE]>end title wrapper<![endif]-->
+
+			<!--[if !IE]>start section content<![endif]-->
+			<div class="section_content">
+			  <span class="section_content_top"></span>
+				<div class="section_content_inner">
+          <div class="table_tabs_menu">
+            <ul class="table_tabs">
+							<li><a class="selected" href="#"><span><span>List</span></span></a></li>
+						</ul>
+						<a class="update" href="#" onclick="javascript:open_form('/profiles/new?pc_id=<%= pc_id %>&page=<%= page %>')"><span><span><em>Add New Record</em><strong></strong></span></span></a>
+					</div>
+
+					<!--[if !IE]>start table_wrapper<![endif]-->
+					<div class="table_wrapper">
+						<div class="table_wrapper_inner">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<th style="width:125px;"><span>Title</span></th>
+									<th class="photo"><span>Suggestions</span></th>
+                  <th class="photo"><span>Users</span></th>
+                  <th class="photo"><span>Auto Populate</span></th>
+									<th style="width: 75px;">Actions</th>
+								</tr>
+
+              <% @profiles.each do |profile| %>
+								<tr class="<%= cycle("first", "second") %> profile_<%= profile.id %>">
+									<td style="padding-left:6px"><%= profile.title %></td>
+                  <td align="center" class="suggestion_<%= profile.id %>">loading ...</td>
+                  <td align="center" class="user_<%= profile.id %>">loading ...</td>
+                  <td align="center" class="populate_<%= profile.id %>">loading ...</td>
+									<td>
+										<div class="actions_menu">
+											<ul>
+												<li><%= link_to "Edit",edit_profile_path({:id=>profile.id,:pc_id=>pc_id,:page=>page}),:class=>"edit" %></li>
+												<li>
+                          <%= link_to "Delete",profile_path(profile),:class=>"delete",:title=> protect_string(profile.title) %>
+                        </li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+              <% end %>
+							</tbody></table>
+						</div>
+					</div>
+					<!--[if !IE]>end table_wrapper<![endif]-->
+				</div>
+        <div class="pagination_wrapper">
+					<span class="pagination_top"></span>
+						<div class="pagination_middle">
+              <%= page_entries_info(@profiles).html_safe %>
+							<div class="pagination">
+							  <span class="page_no"><%= paginate @profiles %></span>
+						  </div>
+					</div>
+					<span class="pagination_bottom"></span>
+				</div>
+				<span class="section_content_bottom"></span>
+			</div>
+      <div id="form_area">
+      </div>
+			<!--[if !IE]>end section content<![endif]-->
+		</div>
+
+<script type="text/javascript">
+ var _ids = [<% @profiles.map(&:id).each do |pid| %>
+              "<%= pid %>",
+             <% end %>
+            ""];
+ $.each(_ids, function(key, value) { 
+   if(value != ""){
+     count_service("/profiles/count_users?pid="+value,$(".user_"+value),"/users?pid="+value);
+     count_service("/profiles/count_suggestions?pid="+value,$(".suggestion_"+value),"/suggestions?pid="+value);
+     count_service("/profiles/count_populates?pid="+value,$(".populate_"+value),"/populates?pid="+value);
+   } 
+});
+
+</script>

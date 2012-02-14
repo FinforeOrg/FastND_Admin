@@ -1,0 +1,26 @@
+<table width="325px" cellspacing="0" cellpadding="0">
+  <tbody><tr>
+    <th><span>Tab</span></th>
+    <th><span>followers</span></th>
+    <th>Actions</th>
+  </tr>
+
+<% @tabs.each do |tab| %>
+  <tr class="<%= cycle("first", "second") %> feed_<%= tab.id %>">
+    <% feed_info = FeedInfo.where(:_id => tab.feed_info_id).first %>
+    <% info_title = feed_info ? feed_info.title : "" %>
+    <td style="padding-left:6px" valign="top"><%= info_title %></td>
+    <td style="padding-left:6px" valign="top"><%= tab.follower %></td>
+    <td valign="top">
+      <div class="actions_menu" style="width:110px;">
+        <ul>
+          <li><%= link_to "Edit",edit_user_user_company_tab_path({:user_id => @user.id, :id => tab.id, :anchor=>"additional_section"}),:class=>"edit" %></li>
+          <li>
+            <%= link_to "Delete",user_user_company_tab_path({:user_id => @user.id, :id => tab.id}),:title=>protect_string(tab.feed_info.title),:class=>"delete" %>
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+<% end %>
+  </tbody></table>

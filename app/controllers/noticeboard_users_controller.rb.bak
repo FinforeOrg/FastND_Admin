@@ -1,0 +1,120 @@
+class NoticeboardUsersController < ApplicationController
+  before_filter :setup_tab
+  # GET /noticeboard_users
+  # GET /noticeboard_users.xml
+  def index
+    @noticeboard_users = NoticeboardUser.from_noticeboard(params[:noticeboard_id],params[:page]||1)
+    @noticeboard = Noticeboard.find params[:noticeboard_id]
+    respond_to do |format|
+      format.html {render :layout=> !request.xhr?}
+      format.xml  { render :xml => @noticeboard_users }
+    end
+  end
+
+  # GET /noticeboard_users/1
+  # GET /noticeboard_users/1.xml
+  def show
+    @noticeboard_user = NoticeboardUser.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @noticeboard_user }
+    end
+  end
+
+  # GET /noticeboard_users/new
+  # GET /noticeboard_users/new.xml
+  def new
+    @noticeboard_user = NoticeboardUser.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @noticeboard_user }
+    end
+  end
+
+  # GET /noticeboard_users/1/edit
+  def edit
+    @noticeboard_user = NoticeboardUser.find(params[:id])
+  end
+
+  # POST /noticeboard_users
+  # POST /noticeboard_users.xml
+  def create
+    noticeboard_user = {:user_id=>params[:member][:user_id],:noticeboard_id=>params[:noticeboard_id]}
+    @noticeboard_user = NoticeboardUser.new(noticeboard_user)
+
+    respond_to do |format|
+      if @noticeboard_user.save
+        format.html {render :text=>"SUCCESS"}
+      else
+        format.html {render :text=>"User is already taken or invalid"}
+      end
+    end
+  end
+
+  # PUT /noticeboard_users/1
+  # PUT /noticeboard_users/1.xml
+  def update
+    @noticeboard_user = NoticeboardUser.find(params[:id])
+
+    respond_to do |format|
+      if @noticeboard_user.update_attributes(params[:noticeboard_user])
+        format.html { redirect_to(@noticeboard_user, :notice => 'NoticeboardUser was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @noticeboard_user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /noticeboard_users/1
+  # DELETE /noticeboard_users/1.xml
+  def destroy
+    @noticeboard_user = NoticeboardUser.find(params[:id])
+    @noticeboard_user.destroy
+
+    respond_to do |format|
+  format.html { render :text=> "SUCCESS" }
+end
+  end
+
+  def update_status
+   member = NoticeboardUser.find(params[:id])
+   is_active = member.is_active ? false : true
+   member.update_attribute(:is_active,is_active)
+
+   respond_to do |format|
+     format.html {render :text=>"SUCCESS"}
+   end
+  end
+
+  def edit_role
+    if params[:member]
+      @member_role = NoticeboardRoleUser.check_role(params[:member])
+      @noticeboard_id = params[:member][:noticeboard_id] 
+    else
+      prepare_roles
+      noticeboard_user = NoticeboardUser.find params[:id]
+      @user_id = noticeboard_user.user_id
+      @noticeboard_id = noticeboard_user.noticeboard_id
+      @noticeboard_role_user = NoticeboardRoleUser.find_by_noticeboard_id_and_user_id(@noticeboard_id,@user_id)
+      @role_id = @noticeboard_role_user ? @noticeboard_role_user.noticeboard_role_id : ""
+    end
+
+   respond_to do |format|
+     format.html {render :layout => false}
+   end
+   
+  end
+
+  private
+    def setup_tab
+       @noticeboards_selected = true
+    end
+
+    def prepare_roles
+      @roles = NoticeboardRole.find(:all,:select=>"id,name")
+    end
+end

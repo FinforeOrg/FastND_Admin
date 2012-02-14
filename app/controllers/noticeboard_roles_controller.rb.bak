@@ -1,0 +1,88 @@
+class NoticeboardRolesController < ApplicationController
+  before_filter :setup_tab
+  # GET /noticeboard_roles
+  # GET /noticeboard_roles.xml
+  def index
+    @noticeboard_roles = NoticeboardRole.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @noticeboard_roles }
+    end
+  end
+
+  # GET /noticeboard_roles/1
+  # GET /noticeboard_roles/1.xml
+  def show
+    @noticeboard_role = NoticeboardRole.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @noticeboard_role }
+    end
+  end
+
+  # GET /noticeboard_roles/new
+  # GET /noticeboard_roles/new.xml
+  def new
+    @noticeboard_role = NoticeboardRole.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @noticeboard_role }
+    end
+  end
+
+  # GET /noticeboard_roles/1/edit
+  def edit
+    @noticeboard_role = NoticeboardRole.find(params[:id])
+  end
+
+  # POST /noticeboard_roles
+  # POST /noticeboard_roles.xml
+  def create
+    @noticeboard_role = NoticeboardRole.new(params[:noticeboard_role])
+
+    respond_to do |format|
+      if @noticeboard_role.save
+        format.html { redirect_to(@noticeboard_role, :notice => 'NoticeboardRole was successfully created.') }
+        format.xml  { render :xml => @noticeboard_role, :status => :created, :location => @noticeboard_role }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @noticeboard_role.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /noticeboard_roles/1
+  # PUT /noticeboard_roles/1.xml
+  def update
+    @noticeboard_role = NoticeboardRole.find(params[:id])
+
+    respond_to do |format|
+      if @noticeboard_role.update_attributes(params[:noticeboard_role])
+        format.html { redirect_to(@noticeboard_role, :notice => 'NoticeboardRole was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @noticeboard_role.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /noticeboard_roles/1
+  # DELETE /noticeboard_roles/1.xml
+  def destroy
+    @noticeboard_role = NoticeboardRole.find(params[:id])
+    @noticeboard_role.destroy
+
+    respond_to do |format|
+	  format.html { render :text=> "SUCCESS" }
+	end
+  end
+
+  private
+    def setup_tab
+       @noticeboards_selected = true
+    end
+end

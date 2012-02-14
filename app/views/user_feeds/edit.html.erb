@@ -1,0 +1,12 @@
+<h1>Editing user_feed</h1>
+
+<%= form_for([@user, @feed_account, @user_feed]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', user_feed_account_user_feed_path(@user, @feed_account, @user_feed) %> |
+<%= link_to 'Back', user_feed_account_user_feeds_path(@user, @feed_account) %>

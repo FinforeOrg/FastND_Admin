@@ -1,0 +1,90 @@
+  <div class="section">
+		<!--[if !IE]>start title wrapper<![endif]-->
+  		<div class="title_wrapper">
+			  <span class="title_wrapper_top"></span>
+				<div class="title_wrapper_inner">
+				  <span class="title_wrapper_middle"></span>
+					<div class="title_wrapper_content">
+					  <h2>Listing Noticeboards:</h2>
+            <ul class="section_menu right">
+              <li>
+                <% form_tag(noticeboards_path, :method=>'get', :class=>"search_form") do %>
+                  <fieldset align="right" style="">
+                    <div style="text-align: right; width: 100%;" class="forms">
+                      <label style="color:white;margin:0px;padding:0px;">Title: &nbsp;</label>
+                      <span class="input_wrapper medium_input"><input type="text" class="text" name="keyword"></span>
+                    </div>
+                  </fieldset>
+                <% end %>
+              </li>
+              <li>&nbsp;</li>
+              <li class="minmax"><%= link_to image_tag("layout/minimize.png",:border=>0),"#section_menu right" %></li>
+            </ul>
+					</div>
+				</div>
+				<span class="title_wrapper_bottom"></span>
+			</div>
+			<!--[if !IE]>end title wrapper<![endif]-->
+
+			<!--[if !IE]>start section content<![endif]-->
+			<div class="section_content">
+			  <span class="section_content_top"></span>
+				<div class="section_content_inner">
+          <div class="table_tabs_menu">
+            <ul class="table_tabs">
+							<li><a class="selected" href="#"><span><span>List</span></span></a></li>
+						</ul>
+						<a class="update" href="/noticeboards/new"><span><span><em>Add New Record</em><strong></strong></span></span></a>
+					</div>
+
+					<!--[if !IE]>start table_wrapper<![endif]-->
+					<div class="table_wrapper">
+						<div class="table_wrapper_inner">
+							<table width="100%" cellspacing="0" cellpadding="0">
+								<tbody><tr>
+									<th style="width:125px;"><span>Title</span></th>
+									<th class="photo"><span>Total Posts</span></th>
+                  <th class="photo"><span>Total Members</span></th>
+                  <th class="photo"><span>Auto Publish?</span></th>
+									<th style="width: 75px;">Actions</th>
+								</tr>
+
+              <% @noticeboards.each do |noticeboard| %>
+								<tr class="<%= cycle("first", "second") %> noticeboard_<%= noticeboard.id %>">
+									<td style="padding-left:6px"><%= noticeboard.name %></td>
+                  <td style="padding-left:6px"><%= noticeboard.total_posts %></td>
+                  <td style="padding-left:6px"><%= noticeboard.total_members %></td>
+                  <td style="padding-left:6px"><%= noticeboard.auto_publish_comment %></td>
+									<td>
+										<div class="actions_menu">
+											<ul>
+												<li><%= link_to "Edit",edit_noticeboard_path(noticeboard),:class=>"edit_no_ajax" %></li>
+												<li>
+                          <%= link_to "Delete",noticeboard_path(noticeboard),:class=>"delete",:title=> protect_string(noticeboard.name) %>
+                        </li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+              <% end %>
+							</tbody></table>
+						</div>
+					</div>
+					<!--[if !IE]>end table_wrapper<![endif]-->
+				</div>
+        <div class="pagination_wrapper">
+					<span class="pagination_top"></span>
+						<div class="pagination_middle">
+              <%= will_paginate @noticeboards %>
+							<div class="pagination">
+							  <span class="page_no"><%= page_entries_info @noticeboards %></span>
+						  </div>
+					</div>
+					<span class="pagination_bottom"></span>
+				</div>
+				<span class="section_content_bottom"></span>
+			</div>
+      <div id="form_area">
+      </div>
+			<!--[if !IE]>end section content<![endif]-->
+		</div>

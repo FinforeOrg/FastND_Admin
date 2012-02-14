@@ -1,0 +1,12 @@
+<h1>Editing noticeboard_user</h1>
+
+<% form_for(@noticeboard_user) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @noticeboard_user %> |
+<%= link_to 'Back', noticeboard_users_path %>

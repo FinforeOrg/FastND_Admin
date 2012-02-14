@@ -1,0 +1,99 @@
+<div class="section">
+  <!--[if !IE]>start title wrapper<![endif]-->
+	<div class="title_wrapper">
+		<span class="title_wrapper_top"></span>
+		<div class="title_wrapper_inner">
+			<span class="title_wrapper_middle"></span>
+			<div class="title_wrapper_content">
+				<h2><%=  @feed_info.title %></h2>
+        <%= menu_edit_prices(@feed_info) %>
+			</div>
+		</div>
+		<span class="title_wrapper_bottom"></span>
+	</div>
+  <!--[if !IE]>end title wrapper<![endif]-->
+
+	<!--[if !IE]>start section content<![endif]-->
+	<div class="section_content">
+		<span class="section_content_top"></span>
+		<div class="section_content_inner">
+  	  <div class="table_tabs_menu">
+        <ul class="table_tabs">
+          <li><a class="selected" href="#"><span><span>List</span></span></a></li>
+        </ul>
+        <!--
+        <a class="update" href="#additional_section" onclick="javascript:load_by_element('/feed_infos/create_price',$('#additional_section'))" ><span><span><em>Add New Record</em><strong></strong></span></span></a>
+        -->
+      </div>
+
+        <!--[if !IE]>start table_wrapper<![endif]-->
+      <div class="table_wrapper">
+        <div class="table_wrapper_inner">
+          <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody><tr>
+              <th style="width:85px;"><span>Full Name</span></th>
+              <th style="width:100px;"><span>Email/Login</span></th>
+              <th style="width:200px;"><span>Focuses</span></th>
+              <th class="photo">Actions</th>
+            </tr>
+
+          <% @users.each do |user| %>
+            <tr class="<%= cycle("first", "second") %> account_<%= user.id %>">
+              <td style="padding-left:6px" valign="top"><%= user.full_name %></td>
+              <td style="padding-left:6px" valign="top"><%= user.login %></td>
+              <td style="padding-left:6px" valign="top"><%= user.profiles.map(&:title).join(', ') %></td>
+              <td valign="top">
+                <div class="actions_menu" style="width:110px;">
+                  <ul>
+                    <li>
+                      <%= link_to "Show",edit_user_path(user) %>
+                    </li>
+                    <li>
+                      <%= link_to "Delete",user_path(user),:class=>"delete",:title=> protect_string(user.full_name) %>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @users.size < 1 %>
+            <tr class="first">
+              <td colspan="5" style="text-align:center;"> No user has followed it</td>
+            </tr>
+          <% end %>
+
+          </tbody></table>
+        </div>
+      </div>
+		</div>
+    <div class="pagination_wrapper user">
+      <span class="pagination_top"></span>
+        <div class="pagination_middle">
+          <%= page_entries_info(@users).html_safe %>
+          <div class="pagination">
+            <span class="page_no"><%= paginate @users %></span>
+          </div>
+      </div>
+      <span class="pagination_bottom"></span>
+    </div>
+		<span class="section_content_bottom"></span>
+	</div>
+	<!--[if !IE]>end section content<![endif]-->
+</div>
+
+<%= user_form_ajax %>
+<script>
+  $('.pagination_wrapper.user .pagination a').click(function() {
+    _elParent = $(this).parents('#form_area');
+    showLoading();
+    $.get($(this).attr('href'),function(respond){
+      $(_elParent).fadeOut("normal",function(){
+        hideLoading();
+        $(_elParent).html(respond);
+        $(_elParent).fadeIn("normal");
+      });
+    });
+    return false;
+  });
+</script>

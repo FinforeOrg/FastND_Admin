@@ -1,0 +1,97 @@
+<div class="section">
+	<!--[if !IE]>start title wrapper<![endif]-->
+  <div class="title_wrapper">
+		<span class="title_wrapper_top"></span>
+		<div class="title_wrapper_inner">
+			<span class="title_wrapper_middle"></span>
+			<div class="title_wrapper_content">
+			  <h2>
+          <%= form_title(@feed_account) %>
+        </h2>
+			</div>
+		</div>
+		<span class="title_wrapper_bottom"></span>
+	</div>
+	<!--[if !IE]>end title wrapper<![endif]-->
+
+	<!--[if !IE]>start section content<![endif]-->
+	<div class="section_content">
+	  <span class="section_content_top"></span>
+		<div class="section_content_inner">
+      <div id="product_page" style="margin-top:50px;">
+        <!--[if !IE]>start product content<![endif]-->
+        <div id="product_content">
+          <!--[if !IE]>start module<![endif]-->
+          <div class="module">
+            <!--[if !IE]>start module top<![endif]-->
+            <div class="module_top">
+              <h5>Column Detail</h5>
+            </div>
+            <!--[if !IE]>end module top<![endif]-->
+          
+            <!--[if !IE]>start module bottom<![endif]-->
+            <div class="module_bottom">
+              <div class="module_options">
+                <div class="forms_wrapper">
+                  <%= render "form" %>
+                </div>
+              </div>
+            </div>
+            <!--[if !IE]>end module bottom<![endif]-->
+          </div>
+          <!--[if !IE]>end module<![endif]-->
+         <% if has_suggest(@feed_account.category) && @feed_account.id %>
+          <div id="finforeSuggestion">
+           <%= render :partial => "finfore_suggestion" %>
+          </div>
+         <% end %>
+        </div>
+        <!--[if !IE]>end product content<![endif]-->
+        <% if has_suggest(@feed_account.category) && @feed_account.id %>
+          <div id="columnFeed">
+            <%= render :partial => "column_feeds" %>
+          </div>
+        <% end %>
+        <!--[if !IE]>end product gallery<![endif]-->
+      </div>
+    </div>
+  	<span class="section_content_bottom"></span>
+	</div>
+  <!--[if !IE]>end section content<![endif]-->
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      // bind form using ajaxForm
+
+      function reloadColumnList(userId){
+        $.get("/users/"+userId+"/columns?partial=true",function(response){
+          $("#form_area .section_content_inner:first").html(response);
+        });
+      }
+
+      $('#feed_account_form').ajaxForm({
+          dataType: 'html',
+          beforeSubmit:function(){
+            hideLoading();showLoading();
+          },
+          success: function(response){
+            hideLoading();
+            if(response == "SUCCESS" || response == "CREATED"){
+              reloadColumnList("<%= @user.id %>");
+              success_alert("Your column has been updated successfully")
+              if(response == "CREATED"){
+                $('#additional_section').slideUp();
+              }
+            }else{
+              $('#additional_section').html(response)
+            }
+          }
+      });
+
+      $('#feed_account_name').change(function(e){
+        $("#additional_section .title_wrapper_content h2").html($(this).val());
+      });
+
+  });
+</script>

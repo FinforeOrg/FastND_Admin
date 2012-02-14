@@ -1,0 +1,6 @@
+production:
+  host: localhost
+  database: finforenet_webservice
+development:
+  host: localhost
+  database: finforenet_webservice

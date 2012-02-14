@@ -1,0 +1,45 @@
+<div class="table_tabs_menu">
+  <ul class="table_tabs">
+    <li><a class="selected" href="#"><span><span>List</span></span></a></li>
+  </ul>
+  <a class="update" href="#additional_section" onclick="javascript:load_by_element('/users/<%=@user.id%>/feed_accounts/new',$('#additional_section'))" ><span><span><em>Add New Record</em><strong></strong></span></span></a>
+</div>
+
+  <!--[if !IE]>start table_wrapper<![endif]-->
+<div class="table_wrapper">
+  <div class="table_wrapper_inner">
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <tbody><tr>
+        <th style="width:125px;"><span>Title</span></th>
+        <th class="photo"><span>Category</span></th>
+        <th class="photo"><span>Feeds</span></th>
+        <th class="photo">Actions</th>
+      </tr>
+
+    <% @accounts.each do |account| %>
+      <tr class="<%= cycle("first", "second") %> account_<%= account.id %>">
+        <td style="padding-left:6px" valign="top"><%= account.name %></td>
+        <td style="padding-left:6px" valign="top"><img src="<%= category_image(account.category) %>" size="24" height="24"/><%= account.category %></td>
+        <td align="center" valign="top" class="feeds_<%= account.id %>"><%= account.user_feeds.count %></td>
+        <td valign="top">
+          <div class="actions_menu" style="width:110px;">
+            <ul>
+              <li><%= link_to "Edit", edit_user_feed_account_path({:user_id => @user.id, :id => account.id,:anchor =>"additional_section"}),:class=>"edit" %></li>
+              <li>
+                <%= link_to "Delete", user_feed_account_path({:user_id => @user.id, :id => account.id,:anchor =>"additional_section"}),:class=>"delete",:title=> protect_string(account.name.to_s) %>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+
+    <% if @accounts.size < 1 %>
+      <tr class="first">
+        <td colspan="5" style="text-align:center;"> No Columns or Accounts yet</td>
+      </tr>
+    <% end %>
+
+    </tbody></table>
+  </div>
+</div>

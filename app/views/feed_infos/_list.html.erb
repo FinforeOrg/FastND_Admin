@@ -1,0 +1,83 @@
+<span class="section_content_top"></span>
+<div class="section_content_inner">
+  <div class="table_tabs_menu">
+    <ul class="table_tabs">
+      <li><a class="selected" href="#"><span><span>List</span></span></a></li>
+    </ul>
+    <a class="update" href="#form_area" onclick="javascript:open_form('/feed_infos/new?category=<%= controller.action_name %>')"><span><span><em>Add New Record</em><strong></strong></span></span></a>
+  </div>
+
+  <!--[if !IE]>start table_wrapper<![endif]-->
+  <div class="table_wrapper">
+    <div class="table_wrapper_inner">
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody><tr>
+          <th style="width:125px;"><span>Title</span></th>
+          <th style="width:250px;"><span>Description / Category</span></th>
+          <% if controller.action_name != "prices" %>
+            <th style="width: 305px;"><span>Tags / Focuses</span></th>
+          <% else %>
+            <th style="width: 305px;"><span>Indexes / Tickers</span></th>
+          <% end %>
+          <% if params[:filter_by] && params[:filter_by] == "Company" %>
+          <th class="photo">Company Tab?</th>
+          <% end %>
+          <th class="photo">Auto Populate?</th>
+          <th class="photo">Actions</th>
+        </tr>
+
+      <% @feed_infos.each do |info| %>
+        <tr class="<%= cycle("first", "second") %> info_<%= info.id %>">
+          <td style="padding-left:6px" valign="top"><%= info.title %></td>
+          <td style="padding-left:6px" valign="top"><%= truncate(info.category, :length => 100, :separator => ' ...') %></td>
+          <td align="center" valign="top" class="tags_<%= info.id %>"><%= tag_on_list(info) %></td>
+          <% if params[:filter_by] && params[:filter_by] == "Company" %>
+          <td align="center" valign="top" class="photo" style="text-align:center;"><%= is_tab(info) %></td>
+          <% end %>
+          <td align="center" valign="top" class="photo" style="text-align:center;"><%= is_populate(info) %></td>
+          <td valign="top">
+            <div class="actions_menu" style="width:110px;">
+              <ul>
+                <li><%= link_to "Edit",edit_feed_info_path(info),:class=>"edit" %></li>
+                <li>
+                  <%= link_to "Delete",feed_info_path(info),:class=>"delete",:title=>protect_string(info.title) %>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      </tbody></table>
+    </div>
+  </div>
+  <!--[if !IE]>end table_wrapper<![endif]-->
+</div>
+<div class="pagination_wrapper">
+  <span class="pagination_top"></span>
+    <div class="pagination_middle">
+      <%= page_entries_info(@feed_infos).html_safe %>
+      <div class="pagination">
+        <span class="page_no"><%= paginate @feed_infos %></span>
+      </div>
+  </div>
+  <span class="pagination_bottom"></span>
+</div>
+<span class="section_content_bottom"></span>
+
+
+<script type="text/javascript">
+
+ var _ids = [<% @feed_infos.each do |fi| %>
+              "<%= fi.id %>",
+             <% end %>
+             ""
+            ]
+ $.each(_ids, function(key, value) {
+   if(value != ""){
+   <% if controller.action_name != "prices" %>
+     count_service("/feed_infos/count_tags?fid="+value,$(".tags_"+value),"#");
+   <% end %>
+   }
+ });
+
+</script>

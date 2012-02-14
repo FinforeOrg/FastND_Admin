@@ -1,0 +1,26 @@
+<% if @member_role %>
+	<ul><li>
+		<%= link_to @member_role.noticeboard_role.name,edit_role_noticeboard_noticeboard_user_path({:noticeboard_id=>@noticeboard_id,:id=>params[:id]}),:class=>"edit_inline" %>
+   </li></ul>
+<% else %>
+  <div class="forms_wrapper">
+   <% form_tag(edit_role_noticeboard_noticeboard_user_path({:noticeboard_id=>@noticeboard_id,:id=>params[:id]}), :method=>'post', :class=>"search_form", :id=>"role_user_form") do %>
+      <!--[if !IE]>start fieldset<![endif]-->
+      <fieldset>
+      <!--[if !IE]>start forms<![endif]-->
+        <div class="forms">
+          <div class="row">
+            <div>
+              <input type="hidden" class="text" name="member[user_id]" value="<%= @user_id %>">
+              <input type="hidden" class="text" name="member[noticeboard_id]" value="<%= @noticeboard_id %>">
+              <%= collection_select :member,:noticeboard_role_id, @roles, :id,:name,{:selected=>@role_id},{:prompt=>"User"} %>
+              <input type="submit" value="Edit">
+              <%= link_to "cancel",edit_role_noticeboard_noticeboard_user_path({:noticeboard_id=>@noticeboard_id,:id=>params[:id],:is_cancel=>true}),:class=>"cancel_form" %>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+   <% end %>
+  </div>
+  
+<% end %>

@@ -1,0 +1,55 @@
+<div class="forms_wrapper">
+  <% form_tag(noticeboard_noticeboard_users_path({:noticeboard_id=>@noticeboard.id}), :method=>'post', :class=>"search_form", :id=>"add_member_board") do %>
+      <!--[if !IE]>start fieldset<![endif]-->
+      <fieldset>
+      <!--[if !IE]>start forms<![endif]-->
+        <div class="forms">
+          <h3>Type Name or email to add user to noticeboard</h3>
+          <!--[if !IE]>start row<![endif]-->
+
+          <div class="row">
+            <label>Name/email:</label>
+            <div class="inputs">
+              <span class="input_wrapper">
+                <%= text_field_tag "member[name]",nil,:class=>"text",:id=>"txtSearchName",:require=>true %>
+              </span>
+              <input type="hidden" class="text" name="member[user_id]" id="txtUserId">
+              <span class="button blue_button search_button"><span><span>Add</span></span><input type="submit" name=""></span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+   <% end %>
+</div>
+
+<script>
+  $("#txtSearchName").autocomplete("<%= url_for(autocomplete_users_path) %>", {
+		width: 260,
+		selectFirst: false
+	});
+
+  $("#txtSearchName").result(function(event, data, formatted) {
+		if (data){
+			$("#txtUserId").val(data[1]);}
+	});
+
+   $(document).ready(function() {
+     $('#add_member_board').ajaxForm({
+                 dataType: 'html',
+                 beforeSubmit:function(){
+                 hideLoading();showLoading();
+                },
+                 success: function(response){
+                    hideLoading();
+                    if(response == "SUCCESS"){
+                    	_selected_tab = $("#add_member_board").parents().find(".section_menu.left.form_tab a.selected_lk").first();
+                    	if($(_selected_tab)){
+                     	 $(_selected_tab).click();
+                    	}
+                    }else{
+                      $("#add_member_board").children().find("h3").first().html(response); 
+                    }
+                 }
+              });
+          });
+</script>

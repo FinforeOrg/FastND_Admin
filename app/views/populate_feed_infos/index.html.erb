@@ -1,0 +1,18 @@
+<h1>Listing populate_feed_infos</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @populate_feed_infos.each do |populate_feed_info| %>
+  <tr>
+    <td><%= link_to 'Show', populate_feed_info %></td>
+    <td><%= link_to 'Edit', edit_populate_feed_info_path(populate_feed_info) %></td>
+    <td><%= link_to 'Destroy', populate_feed_info, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New populate_feed_info', new_populate_feed_info_path %>

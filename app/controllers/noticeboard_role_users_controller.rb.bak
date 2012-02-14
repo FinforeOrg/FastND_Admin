@@ -1,0 +1,89 @@
+class NoticeboardRoleUsersController < ApplicationController
+  before_filter :setup_tab
+  # GET /noticeboard_role_users
+  # GET /noticeboard_role_users.xml
+  def index
+    @noticeboard_role_users = NoticeboardRoleUser.all
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @noticeboard_role_users }
+    end
+  end
+
+  # GET /noticeboard_role_users/1
+  # GET /noticeboard_role_users/1.xml
+  def show
+    @noticeboard_role_user = NoticeboardRoleUser.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @noticeboard_role_user }
+    end
+  end
+
+  # GET /noticeboard_role_users/new
+  # GET /noticeboard_role_users/new.xml
+  def new
+    @noticeboard_role_user = NoticeboardRoleUser.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @noticeboard_role_user }
+    end
+  end
+
+  # GET /noticeboard_role_users/1/edit
+  def edit
+    @noticeboard_role_user = NoticeboardRoleUser.find(params[:id])
+  end
+
+  # POST /noticeboard_role_users
+  # POST /noticeboard_role_users.xml
+  def create
+    @noticeboard_role_user = NoticeboardRoleUser.new(params[:noticeboard_role_user])
+
+    respond_to do |format|
+      if @noticeboard_role_user.save
+        format.html { redirect_to(@noticeboard_role_user, :notice => 'NoticeboardRoleUser was successfully created.') }
+        format.xml  { render :xml => @noticeboard_role_user, :status => :created, :location => @noticeboard_role_user }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @noticeboard_role_user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /noticeboard_role_users/1
+  # PUT /noticeboard_role_users/1.xml
+  def update
+    @noticeboard_role_user = NoticeboardRoleUser.find(params[:id])
+
+    respond_to do |format|
+      if @noticeboard_role_user.update_attributes(params[:noticeboard_role_user])
+        format.html { redirect_to(@noticeboard_role_user, :notice => 'NoticeboardRoleUser was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @noticeboard_role_user.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /noticeboard_role_users/1
+  # DELETE /noticeboard_role_users/1.xml
+  def destroy
+    @noticeboard_role_user = NoticeboardRoleUser.find(params[:id])
+    @noticeboard_role_user.destroy
+
+    respond_to do |format|
+      format.html { redirect_to(noticeboard_role_users_url) }
+      format.xml  { head :ok }
+    end
+  end
+
+    private
+    def setup_tab
+       @noticeboards_selected = true
+    end
+end

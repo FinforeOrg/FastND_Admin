@@ -1,0 +1,38 @@
+  <div class="forms_wrapper">
+    <% form_for(@noticeboard,:html=>{:class=>"search_form general_form",:id=>"noticeboard_form"}) do |f| %>
+    <%= f.error_messages %>
+      <!--[if !IE]>start fieldset<![endif]-->
+      <fieldset>
+      <!--[if !IE]>start forms<![endif]-->
+        <div class="forms">
+          <h3>Please complete the field below</h3>
+          <!--[if !IE]>start row<![endif]-->
+
+          <div class="row">
+            <label>Name:</label>
+            <div class="inputs">
+              <span class="input_wrapper"><%= f.text_field :name, :required => true, :class=>"text" %></span>
+            </div>
+          </div>
+
+          <div class="row">
+            <label>Auto Approve?:</label>
+            <div>
+              <span class="input_wrapper"><%= f.check_box :auto_publish_comment, :class=>"checkbox" %> Yes for new threads/postings</span>
+            </div>
+          </div>
+
+          <!--[if !IE]>start row<![endif]-->
+          <div class="row">
+            <div class="inputs">
+              <span class="button blue_button search_button"><span><span><%= controller.action_name %></span></span><input type="submit" name=""></span>
+            </div>
+          </div>
+          <!--[if !IE]>end row<![endif]-->
+        </div>
+        <!--[if !IE]>end forms<![endif]-->
+      </fieldset>
+      <!--[if !IE]>end fieldset<![endif]-->
+    <% end %>
+  </div>
+  <!--[if !IE]>end forms<![endif]-->

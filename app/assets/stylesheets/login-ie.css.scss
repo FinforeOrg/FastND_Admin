@@ -1,0 +1,6 @@
+body {
+  behavior: url(/assets/csshover.htc); }
+
+.error, .error_inner, h1, .formular_top, .formular_bottom, .reflect, .lock {
+  visibility: hidden;
+  behavior: url(/assets/iepngfix.htc); }

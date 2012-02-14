@@ -1,0 +1,94 @@
+class NoticeboardsController < ApplicationController
+  before_filter :setup_tab
+  # GET /noticeboards
+  # GET /noticeboards.xml
+  def index
+    @noticeboards = Noticeboard.search_for({:keyword=>params[:keyword],:page=>params[:page]||1})
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @noticeboards }
+    end
+  end
+
+  # GET /noticeboards/1
+  # GET /noticeboards/1.xml
+  def show
+    @noticeboard = Noticeboard.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @noticeboard }
+    end
+  end
+
+  # GET /noticeboards/new
+  # GET /noticeboards/new.xml
+  def new
+    @noticeboard = Noticeboard.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @noticeboard }
+    end
+  end
+
+  # GET /noticeboards/1/edit
+  def edit
+    @noticeboard = Noticeboard.find(params[:id])
+    respond_to do |format|
+      format.html { render :layout=> !request.xhr? }
+      format.xml  { render :xml => @noticeboard }
+    end
+
+  end
+
+  # POST /noticeboards
+  # POST /noticeboards.xml
+  def create
+    @noticeboard = Noticeboard.new(params[:noticeboard])
+
+    respond_to do |format|
+      if @noticeboard.save
+        format.html { redirect_to(edit_noticeboard_path(@noticeboard), :notice => "Noticeboard: #{@noticeboard.name} was successfully created.") }
+        format.xml  { render :xml => @noticeboard, :status => :created, :location => @noticeboard }
+      else
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @noticeboard.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /noticeboards/1
+  # PUT /noticeboards/1.xml
+  def update
+    @noticeboard = Noticeboard.find(params[:id])
+
+    respond_to do |format|
+      if @noticeboard.update_attributes(params[:noticeboard])
+        format.html { render :action => "edit", :notice => "Noticeboard: #{@noticeboard.name} was successfully updated." }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @noticeboard.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /noticeboards/1
+  # DELETE /noticeboards/1.xml
+  def destroy
+    @noticeboard = Noticeboard.find(params[:id])
+    @noticeboard.destroy
+
+    respond_to do |format|
+  		format.html { render :text=> "SUCCESS" }
+	 end
+  end
+
+  private
+    def setup_tab
+       @noticeboards_selected = true
+    end
+
+end

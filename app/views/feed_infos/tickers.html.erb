@@ -1,0 +1,113 @@
+<div class="section">
+  <!--[if !IE]>start title wrapper<![endif]-->
+	<div class="title_wrapper">
+		<span class="title_wrapper_top"></span>
+		<div class="title_wrapper_inner">
+			<span class="title_wrapper_middle"></span>
+			<div class="title_wrapper_content">
+				<h2><%=  @feed_info.title %></h2>
+        <%= menu_edit_prices(@feed_info) %>
+			</div>
+		</div>
+		<span class="title_wrapper_bottom"></span>
+	</div>
+  <!--[if !IE]>end title wrapper<![endif]-->
+
+	<!--[if !IE]>start section content<![endif]-->
+	<div class="section_content">
+		<span class="section_content_top"></span>
+		<div class="section_content_inner">
+  	  <div class="table_tabs_menu">
+        <ul class="table_tabs">
+          <li><a class="selected" href="#"><span><span>List</span></span></a></li>
+        </ul>
+        <!--
+        <a class="update" href="#additional_section" onclick="javascript:load_by_element('/feed_infos/create_price',$('#additional_section'))" ><span><span><em>Add New Record</em><strong></strong></span></span></a>
+        -->
+      </div>
+
+        <!--[if !IE]>start table_wrapper<![endif]-->
+      <div class="table_wrapper">
+        <div class="table_wrapper_inner">
+          <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody><tr>
+              <th style="width:400px;"><span>Tickers</span></th>
+              <th class="photo">Actions</th>
+            </tr>
+
+          <% @tickers.each do |t| %>
+            <tr class="<%= cycle("first", "second") %> account_<%= t.id %>">
+              <td style="padding-left:6px" valign="top"><%= t.ticker %></td>
+              <td valign="top">
+                <div class="actions_menu" style="width:110px;">
+                  <ul>
+                    <li>
+                      <%= link_to "Delete",destroy_ticker_feed_infos_path({:ticker_id=>t.id}),:class=>"delete",:title=> protect_string(t.ticker) %>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @tickers.size < 1 %>
+            <tr class="first">
+              <td colspan="5" style="text-align:center;"> No Tickers Yet</td>
+            </tr>
+          <% end %>
+
+          </tbody></table>
+        </div>
+      </div>
+
+      <div class="forms_wrapper">
+        <%= form_tag(create_ticker_feed_info_path(@feed_info), :method=>'post', :class=>"search_form",:id=>"ticker_form") do %>
+          <fieldset>
+            <div class="forms">
+
+              <div class="row">
+                <label>Enter tickers</label>
+                <div class="inputs">
+
+                  <span class="input_wrapper textarea_wrapper" style="width:450px;">
+                    <%= text_area_tag "tickers","",:class=>"text" %>
+                  </span>
+                </div>
+              </div>
+
+              <div class="row">
+                 <div>
+                   User comma(,) or press enter to separete a ticker to each others.
+                   <label>&nbsp;</label>
+                 </div>
+              </div>
+
+              <div class="row">
+                 <div class="inputs">
+                   <span class="button blue_button search_button"><span><span>Submit All</span></span><input type="submit" name="Search" value="Search"></span>
+                 </div>
+              </div>
+            </div>
+          </fieldset>
+        <% end %>
+      </div>
+
+		</div>
+		<span class="section_content_bottom"></span>
+	</div>
+	<!--[if !IE]>end section content<![endif]-->
+</div>
+
+<%= user_form_ajax %>
+<script>
+  $('#feed_account_form').ajaxForm({
+      dataType: 'html',
+      beforeSubmit:function(){
+        hideLoading();showLoading();
+      },
+      success: function(response){
+        hideLoading();
+        $('#form_area').html(response);
+      }
+  });
+</script>

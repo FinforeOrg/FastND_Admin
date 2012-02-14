@@ -1,0 +1,113 @@
+	  	<div class="forms_wrapper">
+	  	  <% url_post = "/noticeboards/#{@noticeboard.id}/noticeboard_posts/#{@noticeboard_post.id}" %>
+        <% form_for @noticeboard_post,:url=>url_post,:html=>{:class=>"search_form general_form",:id=>"noticeboard_post_form"} do |f| %>
+        <%= f.error_messages %>
+			<fieldset>
+			<!--[if !IE]>start forms<![endif]-->
+				<div class="forms">
+				  <h3>Please complete the field below</h3>
+				  <!--[if !IE]>start row<![endif]-->
+				  <div class="row">
+					  <label>Title:</label>
+					  <div class="inputs">
+					   <span class="input_wrapper"><%= f.text_field :title, :required => true, :class=>"text" %></span>
+					  </div>
+					</div>
+					<div class="row">
+        				<label>Description:</label>
+        				<div class="inputs">
+			           <span class="input_wrapper textarea_wrapper" style="width:450px;">
+         			     <%= f.text_area :content, :class=>"text tinymce" %>
+         			     <%= hidden_field_tag :noticeboard_id, @noticeboard.id %>
+          			  </span>
+        				</div>
+      			</div>
+      			<div class="row">
+					  <label>Tags:</label>
+					  <div class="inputs">
+					   <span class="input_wrapper"><%= f.text_field :tags, :class=>"text" %></span>
+					  </div>
+					</div>						  
+
+               <div class="row">
+					  <label>Is Publish:</label>
+					  <div class="inputs">
+					    <span class=""><%= f.check_box :is_publish, :class=>"checkbox" %> uncheck it for disabling</span>
+					  </div>
+					</div>
+					<% if @noticeboard_post.id %>
+					<div class="row">
+					  <label>Author:</label>
+					  <div class="inputs">
+					    <span class=""><%= @noticeboard_post.author %></span>
+					  </div>
+					</div>
+					<div class="row">
+					  <label>Belongs To:</label>
+					  <div class="inputs">
+					    <span class="">Noticeboard: <%= @noticeboard_post.noticeboard.name %></span>
+					  </div>
+					</div>
+					<% end %>
+					<%= f.hidden_field :noticeboard_id %>
+					<%= f.hidden_field :user_id %>
+
+							<!--[if !IE]>start row<![endif]-->
+							<div class="row">
+								<div class="inputs">
+									<span class="button blue_button search_button"><span><span><%= controller.action_name %></span></span><input type="submit" name=""></span>
+									<span class="button">
+                    <span>
+                      <span>
+                        <a href="#" onclick="javascript:$('#form_area').slideUp();">Cancel</a>
+                      </span>
+                    </span>
+                  </span>
+						  	</div>
+							</div>
+							<!--[if !IE]>end row<![endif]-->
+            </div>
+						<!--[if !IE]>end forms<![endif]-->
+					</fieldset>
+					<!--[if !IE]>end fieldset<![endif]-->
+				<% end %>
+			</div>
+			<!--[if !IE]>end forms<![endif]-->
+			
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('textarea.tinymce').tinymce({
+			script_url : 'http://test.finfore.net/javascripts/tiny_mce/tiny_mce.js',
+			theme : "advanced",
+			plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
+			theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+			theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+			theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak",
+			theme_advanced_toolbar_location : "top",
+			theme_advanced_toolbar_align : "left",
+			theme_advanced_statusbar_location : "bottom",
+			theme_advanced_resizing : true,
+
+			/* Example content CSS (should be your site CSS)
+			content_css : "css/content.css",*/
+
+			template_external_list_url : "http://tinymce.moxiecode.com/tryit/js/template_list.js",
+			external_link_list_url : "http://tinymce.moxiecode.com/tryit/js/link_list.js",
+			external_image_list_url : "http://tinymce.moxiecode.com/tryit/js/image_list.js",
+			media_external_list_url : "http://tinymce.moxiecode.com/tryit/js/media_list.js",
+
+		});
+		
+      $('#noticeboard_post_form').ajaxForm({
+                    dataType: 'html',
+                    beforeSubmit:function(){
+                      hideLoading();showLoading();
+                    },
+                    success: function(response){
+                      hideLoading();
+                      $("#noticeboard_form_area").html(response)
+                    }
+      });
+	});
+</script>      

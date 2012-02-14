@@ -1,0 +1,98 @@
+class NoticeboardPostsController < ApplicationController
+  before_filter :setup_tab
+  # GET /noticeboard_posts
+  # GET /noticeboard_posts.xml
+  def index
+    @noticeboard_posts = NoticeboardPost.from_noticeboard(params[:noticeboard_id],params[:page]||1)
+    @noticeboard = Noticeboard.find params[:noticeboard_id]
+    respond_to do |format|
+      format.html {render :layout=> !request.xhr?}
+      format.xml  { render :xml => @noticeboard_posts }
+    end
+  end
+
+  # GET /noticeboard_posts/1
+  # GET /noticeboard_posts/1.xml
+  def show
+    @noticeboard_post = NoticeboardPost.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @noticeboard_post }
+    end
+  end
+
+  # GET /noticeboard_posts/new
+  # GET /noticeboard_posts/new.xml
+  def new
+    @noticeboard = Noticeboard.find params[:noticeboard_id]
+    @noticeboard_post = NoticeboardPost.new
+
+    respond_to do |format|
+      format.html { render :layout => !request.xhr?}
+      format.xml  { render :xml => @noticeboard_post }
+    end
+  end
+
+  # GET /noticeboard_posts/1/edit
+  def edit
+    @noticeboard_post = NoticeboardPost.find(params[:id])
+    respond_to do |format|
+      format.html {render :layout => !request.xhr?}
+    end
+  end
+
+  # POST /noticeboard_posts
+  # POST /noticeboard_posts.xml
+  def create
+    @noticeboard_post = NoticeboardPost.new(params[:noticeboard_post])
+    
+    respond_to do |format|
+      if @noticeboard_post.save
+        @messsage = "#{@noticeboard_post.title} was successfully created."
+        if !request.xhr?
+          format.html { redirect_to(noticeboard_noticeboard_posts_path({:noticeboard_id=>@noticeboard_post.noticeboard_id}), :notice => 'NoticeboardPost was successfully created.') }
+        else
+          format.html { render :action =>"edit",:layout=> false,:notice => @message}          
+        end
+      else
+        format.html { render :action => "edit",:layout=> !request.xhr? }
+      end
+    end
+  end
+
+  # PUT /noticeboard_posts/1
+  # PUT /noticeboard_posts/1.xml
+  def update
+    @noticeboard_post = NoticeboardPost.find(params[:id])
+    
+    respond_to do |format|
+      if @noticeboard_post.update_attributes(params[:noticeboard_post])
+        @message = "#{@noticeboard_post.title} has been modified."
+        if !request.xhr?
+          format.html { redirect_to(noticeboard_noticeboard_posts_path({:noticeboard_id=>@noticeboard_post.noticeboard_id}), :notice => @message) }
+        else
+          format.html { render :action => "edit", :layout=> !request.xhr?}
+        end
+      else
+        format.html { render :action => "edit", :layout=> !request.xhr? }
+      end
+    end
+  end
+
+  # DELETE /noticeboard_posts/1
+  # DELETE /noticeboard_posts/1.xml
+  def destroy
+    @noticeboard_post = NoticeboardPost.find(params[:id])
+    @noticeboard_post.destroy
+
+    respond_to do |format|
+	  format.html { render :text=> "SUCCESS" }
+	end
+  end
+
+    private
+    def setup_tab
+       @noticeboards_selected = true
+    end
+end

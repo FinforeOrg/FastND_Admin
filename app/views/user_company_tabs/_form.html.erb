@@ -1,0 +1,63 @@
+<!--[if !IE]>start forms<![endif]-->
+<% unless @message.blank? %>
+  <%= render :partial => 'layouts/notification', :locals => {:message => @message} %>
+<% end %>
+<div class="forms_wrapper">
+  <%= form_for([@user, @user_company_tab],:html=>{:class=>"search_form general_form",:id=>"user_company_form"}) do |f| %>
+    <%= f.error_messages %>
+    <fieldset>
+    <!--[if !IE]>start forms<![endif]-->
+      <div class="forms">
+
+        <div class="row">
+          <label>Min. Follower:</label>
+          <div>
+            <span class="input_wrapper">
+              <%= f.select :follower,options_for_select(@followers,@user_company_tab.follower), {:prompt=>false,:class=>"text"} %>
+              <%= f.hidden_field :feed_info_id,:value=>@user_company_tab.feed_info_id %>
+            </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <label>is Aggregate?:</label>
+          <div>
+            <span class="input_wrapper">
+              <%= f.check_box :is_aggregate %> Yes
+            </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="inputs">
+            <span class="button blue_button search_button">
+              <span>
+                <span>
+                  <%= controller.action_name %>
+                </span>
+              </span>
+              <input type="submit" name="">
+            </span>
+          </div>
+        </div>
+        <!--[if !IE]>end row<![endif]-->
+      </div>
+      <!--[if !IE]>end forms<![endif]-->
+   </fieldset>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $(document).ready(function() {
+      // bind form using ajaxForm
+      $('#user_company_form').ajaxForm({
+          dataType: 'html',
+          beforeSubmit:function(){
+            hideLoading();showLoading();
+          },
+          success: function(response){
+            hideLoading();
+            $("#additional_section").html(response);
+          }
+      });
+  });
+</script>

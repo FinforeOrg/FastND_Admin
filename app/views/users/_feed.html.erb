@@ -1,0 +1,19 @@
+<table width="325px" cellspacing="0" cellpadding="0">
+  <tbody><tr>
+    <th><span>Title</span></th>
+    <th style="width:25px;">Actions</th>
+  </tr>
+
+<% @feed_account.user_feeds.each do |feed| %>
+  <tr class="<%= cycle("first", "second") %> feed_<%= feed.id %>">
+    <% info_title = feed.feed_info.title %>
+    <td style="padding-left:6px" valign="top"><%= info_title %></td>
+    <td valign="top">
+      <%= link_to "delete", user_feed_account_user_feed_path(@user, @feed_account, feed),
+        :title => protect_string(info_title),
+        :class => "delete"
+      %>
+    </td>
+  </tr>
+<% end %>
+  </tbody></table>

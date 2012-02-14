@@ -1,0 +1,129 @@
+<!--[if !IE]>start forms<![endif]-->
+<% unless @message.blank? %>
+  <%= render :partial => 'layouts/notification', :locals => {:message => @message} %>
+<% end %>
+<div class="forms_wrapper">
+  <%= form_for(@feed_info,:html=>{:class=>"search_form general_form",:id=>"feed_info_form"}) do |f| %>
+  <%= f.error_messages %>
+  <!--[if !IE]>start fieldset<![endif]-->
+  <fieldset>
+    <!--[if !IE]>start forms<![endif]-->
+    <div class="forms">
+      <h3>Please complete the field below</h3>
+      <!--[if !IE]>start row<![endif]-->
+
+      <div class="row">
+        <label>Title:</label>
+        <div class="inputs">
+          <span class="input_wrapper"><%= f.text_field :title, :required => true, :class=>"text" %></span>
+        </div>
+      </div>
+
+    <% if  @feed_info.isChart? %>
+      <%= f.hidden_field :category, :class=>"text" %>
+    <% else %>
+      <div class="row">
+        <label>Address:</label>
+        <div class="inputs">
+          <span class="input_wrapper"><%= f.text_field :address, :required => true, :class=>"text" %></span>
+        </div>
+      </div>
+
+      <div class="row">
+        <label>Category:</label>
+        <div class="inputs">
+          <span class="input_wrapper">
+            <%= f.select :category,
+                         options_for_select(@info_categories,@feed_info.category),
+                         {:prompt => "Select a Category",:require=>true} %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+      
+      <div class="row">
+        <label>Description:</label>
+        <div class="inputs">
+          <span class="input_wrapper textarea_wrapper" style="width:450px;">
+            <%= f.text_area :description, :class=>"text" %>
+          </span>
+        </div>
+      </div>
+
+      <% @profile_categories.each do |category| %>
+
+      <div class="row">
+        <label><%= category.title  %> </label>
+        <div class="inputs">
+          <span class="input_wrapper">
+            <%= f.collection_select :profile_ids, category.profiles, :id, :title,
+                  {:prompt => false},
+                  {:selected => @feed_info.profiles.map{|fip| fip.id.to_s},:multiple=>true,:name => 'feed_info[profile_ids][]',:require=>true} %>
+          </span>
+        </div>
+      </div>
+
+      <% end %>
+
+     <!--[if !IE]>start row<![endif]-->
+     <div class="row">
+       <div class="inputs">
+         <span class="button blue_button search_button"><span><span><%= controller.action_name %></span></span><input type="submit" name=""></span>
+         <span class="button">
+           <span>
+             <span>
+               <a href="#" onclick="javascript:$('#form_area').slideUp();">Cancel</a>
+             </span>
+           </span>
+         </span>
+       </div>
+     </div>
+     <!--[if !IE]>end row<![endif]-->
+   </div>
+   <!--[if !IE]>end forms<![endif]-->
+  </fieldset>
+    <!--[if !IE]>end fieldset<![endif]-->
+ <% end %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          // bind form using ajaxForm
+          $('#feed_info_form').ajaxForm({
+              dataType: 'html',
+              beforeSubmit:function(){
+                hideLoading();showLoading();
+              },
+              success: function(response){
+                hideLoading();
+                $("#form_area").html(response);
+                var _parentUrl = window.location.href.substr(0, window.location.href.indexOf('#'));
+                if(window.location.href.indexOf('?') > 0){
+                  _parentUrl = _parentUrl + "&partial=true"
+                }else{
+                  _parentUrl = _parentUrl + "?partial=true"
+                }
+                $.get(_parentUrl,function(response){
+                  $("#form_area").prev().html(response);
+                });
+              }
+          });
+      });
+    </script>
+</div>
+<!--[if !IE]>end forms<![endif]-->
+<div class="sidebar">
+  <div class="tooltip">
+    <div class="tooltip_top">
+      <div class="tooltip_bottom">
+         <span class="pointer"></span>
+         <p class="first">
+           <strong>The following below is a guidence to fill the form:</strong>
+         </p>
+         <ul>
+          <li>Address is source of your suggestion</li>
+          <li>Podcast and RSS should be web url</li>
+          <li>Address for twitter, Company, Index or Currency is twitter screenName or keyword</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

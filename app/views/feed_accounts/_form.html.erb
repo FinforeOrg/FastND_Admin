@@ -1,0 +1,94 @@
+<%= form_for([@user, @feed_account], :html=>{:class=>"search_form general_form",:id=>"feed_account_form"}) do |f| %>
+  <%= f.error_messages %>
+  <fieldset>
+  <!--[if !IE]>start forms<![endif]-->
+    <div class="forms">
+      <div class="row">
+        <label>Column Title:</label>
+        <div class="inputs">
+          <span class="input_wrapper">
+            <%= f.text_field :name, :required => true, :class=>"text" %>
+            <%= f.hidden_field :category %>
+            <%= f.hidden_field :window_type %>
+          </span>
+        </div>
+      </div>
+      
+      <% if @feed_account.id %>
+        <div class="row">
+          <label>From Account:</label>
+          <div class="inputs">
+            <span class="input_wrapper">
+              <%= token_name(@feed_account) %>
+            </span>
+          </div>
+        </div>
+      <% end %>
+      
+      <div class="row">
+        <label>Category:</label>
+        <div class="inputs">
+          <span class="input_wrapper">
+            <img src="<%= category_image(@feed_account.category) %>" size="24" height="24"/><%= @feed_account.category %>
+          </span>
+        </div>
+      </div>
+
+      <% if @feed_account.hasAggregate? %>
+        <% f.fields_for :keyword_column do |keyword| %>
+          <div class="row">
+            <label>Min. Follower:</label>
+            <div>
+              <span class="input_wrapper">
+                <%= keyword.select :follower,options_for_select(@followers), {:prompt=>false,:class=>"text"} %>
+                <%= keyword.hidden_field :user_id,:value=>@feed_account.user.id %>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <label>is Aggregate?:</label>
+            <div>
+              <span class="input_wrapper">
+                <%= keyword.check_box :is_aggregate %> Yes
+              </span>
+            </div>
+          </div>
+          <% if @feed_account.id %>
+          <div class="row">
+            <label>Custom Keywords:</label>
+            <div>
+              <span class="input_wrapper">
+                <%= keyword.text_field :keyword, :class=>"text" %>
+              </span>
+              <p style="padding-left:10px;font-size:10px;">(eg:BALOISE,"Citibank UK",WSJ:MarketBeat)</p>
+            </div>
+          </div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <div class="row">
+        <div class="inputs">
+          <span class="button blue_button search_button">
+            <span>
+              <span>
+                <%= controller.action_name %>
+              </span>
+            </span>
+            <input type="submit" name="" />
+          </span>
+           <% if @feed_account.id && @feed_account.isOauth? %>
+             <b>
+             <%= link_to "Revalidate",
+		         column_auth_user_feed_accounts_path({:user_id => @feed_account.user.id,
+                                                         :provider=>@feed_account.category,:feed_account_id=>@feed_account.id}) %>
+           </b>
+           <% end %>
+
+        </div>
+      </div>
+      <!--[if !IE]>end row<![endif]-->
+    </div>
+    <!--[if !IE]>end forms<![endif]-->
+ </fieldset>
+<% end %>

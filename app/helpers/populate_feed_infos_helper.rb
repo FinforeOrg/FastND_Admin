@@ -1,0 +1,2 @@
+module PopulateFeedInfosHelper
+end

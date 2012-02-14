@@ -1,0 +1,19 @@
+<h1>Listing user_feeds</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @user_feeds.each do |user_feed| %>
+  <tr>
+    <td><%= user_feed.title %></td>
+    <td><%= link_to 'Show', user_feed_account_user_feed_path(@user, @feed_account, user_feed) %></td>
+    <td><%= link_to 'Edit', edit_user_feed_account_user_feed_path(@user, @feed_account, user_feed) %></td>
+    <td><%= link_to 'Destroy', user_feed_account_user_feed_path(@user, @feed_account, user_feed), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_feed', new_user_feed_account_user_feed_path(@user, @feed_account) %>

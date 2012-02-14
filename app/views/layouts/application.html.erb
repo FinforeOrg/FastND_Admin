@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="imagetoolbar" content="no" />
+    <title>FastND Control Panel v.<%= @version %> </title>
+    <link rel="stylesheet" href="//jqueryui.com/themes/base/jquery.ui.all.css" />
+    <%= stylesheet_link_tag 'application' %>
+    <!--[if lte IE 6]><%= stylesheet_link_tag 'application-ie' %><![endif]-->
+    <!-- aurora-theme is default -->
+    <%= javascript_include_tag 'application-jquery' %>
+    <script type="text/javascript">
+      jQuery.noConflict();
+      $ = jQuery.noConflict();
+    </script>
+    <%= javascript_include_tag 'application' %>
+  </head>
+  <body>
+    <!--[if !IE]>start wrapper<![endif]-->
+    <div id="wrapper">
+      <!--[if !IE]>start header main menu<![endif]-->
+      <div id="header_main_menu">
+		    <span id="header_main_menu_bg"></span>
+        <!--[if !IE]>start header<![endif]-->
+        <div id="header">
+          <div class="inner">
+            <h1 id="logo"><a href="#">websitename <span>Administration Panel</span></a></h1>
+            <!--[if !IE]>start user details<![endif]-->
+            <div id="user_details">
+            <ul id="user_details_menu">
+             <li class="welcome">Welcome <strong><%= current_user.login %> <!-- (<a class="new_messages" href="#">1 new message</a>)--></strong></li>
+              <li>
+                <ul id="user_access">
+                  <li class="first"><a href="#">My account</a></li>
+                  <li class="last"><%= link_to 'Log Out', logout_path %></li>
+                </ul>
+              </li>
+            </ul>
+
+					  <div id="server_details">
+ 						  <dl>
+                <dt>Server time :</dt>
+                <dd><%= timeformat_full(Time.now,10,10) %></dd>
+              </dl>
+              <dl>
+                <dt>Last login at :</dt>
+                <dd><%= timeformat_full(current_user.last_login_at,10,10) %></dd>
+              </dl>
+              <dl>
+                <dt>Last login ip :</dt>
+                <dd><%= current_user.last_login_ip %></dd>
+              </dl>
+            </div>
+				  </div>
+				  <!--[if !IE]>end user details<![endif]-->
+			  </div>
+		  </div>
+		  <!--[if !IE]>end header<![endif]-->
+      		  <!--[if !IE]>start main menu<![endif]-->
+		  <div id="main_menu">
+			  <div class="inner">
+          <ul>
+            <li><%= main_menu("Dashboard", "/dashboards", @dashboard_selected) %></li>
+            <li>
+              <%= main_menu("Focuses Setting", "/focuses", @focuses_selected) %>
+            </li>
+            <li>
+              <%= main_menu("Suggestions Data", "/suggestions", @suggestions_selected) %>
+              <%= sub_menu_suggestions(@suggestions_selected) %>
+            </li>
+            <li><%= main_menu("Company Tabs", "/company_tabs", @company_tabs_selected) %></li>
+            <li>
+              <%= main_menu("Users Management", "/users", @users_selected) %>
+            </li>
+            <!--
+            <li>
+              <%= main_menu("Noticeboards", "/noticeboards", @noticeboards_selected) %>
+            </li>
+            
+            <li>
+              <%= main_menu("Settings", "/settings", @settings_selected) %>
+            </li>-->
+          </ul>
+			  </div>
+			  <span class="sub_bg"></span>
+		  </div>
+		  <!--[if !IE]>end main menu<![endif]-->
+		</div>
+		<!--[if !IE]>end header main menu<![endif]-->
+    <div id="content">
+      <div class="inner">
+        <% unless notice.blank? %>
+          <%= render :partial => 'layouts/notification', :locals => {:message => notice} %>
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>
+	</div>
+	<!--[if !IE]>end wrapper<![endif]-->
+
+	<!--[if !IE]>start footer<![endif]-->
+	<div id="footer">
+		<div id="footer_inner">
+			<div class="inner">
+				<div id="footer_info">
+					&copy; <%= Date.today.strftime('%Y')  %>  FinforeNet Ltd. All rights reserved
+				</div>
+				<ul id="footer_menu">
+					<li class="first"><a href="#">Help</a></li>
+					<li><a href="#">Contact Support</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--[if !IE]>end footer<![endif]-->
+<div id="dialog-confirm" title="Delete Confirmation" style="display:none;">
+	<p>
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+    Deleting <strong class="delete_title"></strong> and maybe remove its dependency data permanently. Are you sure?
+  </p>
+</div>
+<div id="dialog-success" title="Success Progress" style="display:none;">
+  <p class="success_message">
+  </p>
+</div>
+</body>
+</html>

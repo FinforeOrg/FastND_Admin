@@ -1,0 +1,120 @@
+<!--[if !IE]>start content<![endif]-->
+<div id="content">
+	<div class="inner">
+    <!--[if !IE]>start section<![endif]-->
+    <div class="">
+    <!--[if !IE]>start title wrapper<![endif]-->
+      <div class="title_wrapper">
+        <span class="title_wrapper_top"></span>
+        <div class="title_wrapper_inner">
+          <span class="title_wrapper_middle"></span>
+          <div class="title_wrapper_content">
+            <h2>Dashboard</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="section_content">
+        <span class="section_content_top"></span>
+        <div class="section_content_inner">
+          <!--[if !IE]>start dashboard menu<![endif]-->
+          <div class="dashboard_menu_wrapper">
+            <ul class="dashboard_menu">
+              <li><%= dashboard_menu("User Management","/users","d1") %></li>
+              <li><%= dashboard_menu("Suggestions Setting","/suggestions","d5")%></li>
+              <li><%= dashboard_menu("Company Tabs","/company_tabs","d7")%></li>
+              <!--   <li><%= dashboard_menu("Noticeboard Management","/noticeboards","noticeboard")%></li> 
+              <li><%= dashboard_menu("Statistics and Graphs","/statistics","d15")%></li>
+              <li><%= dashboard_menu("Webservice Errors","http://test.finfore.net/logged_exceptions","error_record")%></li> -->
+            </ul>
+          </div>
+          <!--[if !IE]>end dashboard menu<![endif]-->
+        </div>
+        <span class="section_content_bottom"></span>
+      </div>
+      <!--[if !IE]>end section content<![endif]-->
+    </div>
+    <!--[if !IE]>end section<![endif]-->
+	</div>
+</div>
+<!--[if !IE]>end content<![endif]-->
+
+<!--[if !IE]>start content<![endif]-->
+<div id="content">
+	<div class="inner">
+    <!--[if !IE]>start section<![endif]-->
+    <div class="">
+    <!--[if !IE]>start title wrapper<![endif]-->
+      <div class="title_wrapper">
+        <span class="title_wrapper_top"></span>
+        <div class="title_wrapper_inner">
+          <span class="title_wrapper_middle"></span>
+          <div class="title_wrapper_content">
+            <h2>Registration Chart</h2>
+            <ul class="section_menu right">
+              <li>
+                <%= form_tag(chart_users_dashboards_path, :method=>'get', :id=>"regis_chart_form") do %>
+                    <div>
+                      <label style="color:white;margin:0px;padding:0px;">From:</label>
+                      <input type="text" style="width:80px;" id="start_at" class="text" name="start_at">
+                      <label style="color:white;margin:0px;padding:0px;">To:</label>
+                      <input type="text" style="width:80px;" id="end_at" class="text" name="end_at">
+                      <%= image_tag "layout/loupe.gif",:id=>"submitChart"  %>
+                    </div>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <span class="title_wrapper_bottom"></span>
+      </div>
+      <!--[if !IE]>end title wrapper<![endif]-->
+      <!--[if !IE]>start section content<![endif]-->
+      <div class="section_content">
+        <span class="section_content_top"></span>
+        <div class="section_content_inner">
+          <!--[if !IE]>start dashboard menu<![endif]-->
+          <div class="user_chart" style="height:250px">
+            loading chart ...
+          </div>
+          <!--[if !IE]>end dashboard menu<![endif]-->
+        </div>
+        <span class="section_content_bottom"></span>
+      </div>
+      <!--[if !IE]>end section content<![endif]-->
+    </div>
+    <!--[if !IE]>end section<![endif]-->
+	</div>
+</div>
+
+<%#= render :partial => "top_ten" %>
+
+<!--[if !IE]>end content<![endif]-->
+<script type='text/javascript' src='http://www.google.com/jsapi'></script>
+<script type='text/javascript'>
+  google.load('visualization', '1', {'packages':['corechart']});
+  google.setOnLoadCallback(loadUserChart);
+</script>
+<script type='text/javascript'>
+  $(document).ready(function() {
+      $("#start_at").datepicker();
+      $("#end_at").datepicker();
+
+      $('#regis_chart_form').ajaxForm({
+                        dataType: 'json',
+                        beforeSubmit:function(){
+                          hideLoading();showLoading();
+                        },
+                        success: function(response){
+                          hideLoading();
+                          processRegistrationChart(response);
+                        }
+                    });
+      $("#submitChart").click(function(){
+        $('#regis_chart_form').submit();
+      });
+      var _suggestions = $(["rss","twitter","company","chart"]);
+      //loadSuggestionChart(0,_suggestions);
+  });
+  
+</script>

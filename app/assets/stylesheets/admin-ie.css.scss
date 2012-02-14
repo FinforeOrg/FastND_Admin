@@ -1,0 +1,40 @@
+#wrapper {
+  height: 100%; }
+
+.inner {
+  height: 1px; }
+
+#footer {
+  height: 1px;
+  .inner {
+    height: 29px; } }
+
+#logo a {
+  visibility: hidden;
+  behavior: url(iepngfix.htc);
+  cursor: pointer; }
+
+#main_menu {
+  .l span, .r span, .m span {
+    visibility: hidden;
+    behavior: url(iepngfix.htc);
+    cursor: pointer; } }
+
+.section_menu {
+  .l span, .r span, .m span {
+    visibility: hidden;
+    behavior: url(iepngfix.htc);
+    cursor: pointer; } }
+
+.sub_bg, .title_wrapper_top, .title_wrapper_bottom, .title_wrapper_middle, .section_content_top, .section_content_bottom, .system_messages span.ico, .pagination_bottom, #header_main_menu_bg {
+  visibility: hidden;
+  behavior: url(iepngfix.htc); }
+
+.section_content_inner, .tooltip_bottom, .system_messages li {
+  height: 1px; }
+
+.CalendarEventContent {
+  height: 48px; }
+
+.section_sidebar_bottom, .pagination_wrapper {
+  height: 1px; }
